@@ -80,3 +80,20 @@ prompt.json
 # Gemini/Agent dirs
 .agents/
 .gemini/
+
+# Legacy Docs and Dev Scripts
+ADAPTACAO_PROMPT.md
+ANALISE.md
+CHAVES_CONFIG.md
+COMECE_AGORA.md
+CONFIGURACAO.md
+CORRIGIR_ERRO_LLM.md
+ENTREGA.md
+Prompt.md
+TROUBLESHOOTING.md
+Makefile
+infra/scripts/*.bat
+infra/scripts/test_*.py
+infra/scripts/debug_*.py
+infra/scripts/validate_*.py
+infra/scripts/test_results*.txt
