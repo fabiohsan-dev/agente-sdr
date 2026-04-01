@@ -1,9 +1,9 @@
 """Enums do domínio."""
 
-from enum import Enum
+from enum import StrEnum
 
 
-class LeadState(str, Enum):
+class LeadState(StrEnum):
     """Estados possíveis de um lead."""
 
     NEW = "NEW"
@@ -21,14 +21,14 @@ class LeadState(str, Enum):
     PAUSED_BY_HUMAN = "PAUSED_BY_HUMAN"
 
 
-class OwnerMode(str, Enum):
+class OwnerMode(StrEnum):
     """Modo de controle do lead."""
 
     AGENT = "agent"
     HUMAN = "human"
 
 
-class MessageType(str, Enum):
+class MessageType(StrEnum):
     """Tipos de mensagem."""
 
     TEXT = "text"
@@ -36,14 +36,14 @@ class MessageType(str, Enum):
     IMAGE = "image"
 
 
-class MessageDirection(str, Enum):
+class MessageDirection(StrEnum):
     """Direção da mensagem."""
 
     INBOUND = "inbound"
     OUTBOUND = "outbound"
 
 
-class MediaType(str, Enum):
+class MediaType(StrEnum):
     """Tipos de mídia."""
 
     AUDIO = "audio"
@@ -52,7 +52,7 @@ class MediaType(str, Enum):
     DOCUMENT = "document"
 
 
-class MediaStatus(str, Enum):
+class MediaStatus(StrEnum):
     """Status do processamento de mídia."""
 
     PENDING = "pending"
@@ -61,7 +61,7 @@ class MediaStatus(str, Enum):
     FAILED = "failed"
 
 
-class EventType(str, Enum):
+class EventType(StrEnum):
     """Tipos de evento."""
 
     MESSAGE_RECEIVED = "message_received"
@@ -79,7 +79,7 @@ class EventType(str, Enum):
     ERROR = "error"
 
 
-class FollowJobStatus(str, Enum):
+class FollowJobStatus(StrEnum):
     """Status de job de follow-up."""
 
     PENDING = "pending"

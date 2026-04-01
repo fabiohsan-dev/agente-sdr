@@ -26,7 +26,7 @@ class CalcomSlot(BaseModel):
     """Slot de agendamento do Cal.com v2 (formato range)."""
 
     start: str  # ISO 8601 com timezone (ex: 2026-04-01T09:00:00.000-03:00)
-    end: str    # ISO 8601 com timezone
+    end: str  # ISO 8601 com timezone
 
 
 class CalcomBooking(BaseModel):
@@ -38,15 +38,15 @@ class CalcomBooking(BaseModel):
     description: str | None = None
     start: str | None = None
     end: str | None = None
-    startTime: str | None = None
-    endTime: str | None = None
+    startTime: str | None = None  # noqa: N815
+    endTime: str | None = None  # noqa: N815
     status: str | None = None
     duration: int | None = None
-    meetingUrl: str | None = None
+    meetingUrl: str | None = None  # noqa: N815
     meeting_url: str | None = None
     attendees: list[dict] | None = None
     hosts: list[dict] | None = None
-    eventTypeId: int | None = None
+    eventTypeId: int | None = None  # noqa: N815
 
     @property
     def effective_start(self) -> str | None:
@@ -140,10 +140,12 @@ class CalcomClient:
                 for _date, day_slots in slot_data.items():
                     if isinstance(day_slots, list):
                         for slot in day_slots:
-                            slots.append(CalcomSlot(
-                                start=slot.get("start", ""),
-                                end=slot.get("end", ""),
-                            ))
+                            slots.append(
+                                CalcomSlot(
+                                    start=slot.get("start", ""),
+                                    end=slot.get("end", ""),
+                                )
+                            )
 
             logger.info(f"Cal.com v2: {len(slots)} slots encontrados")
             return slots
@@ -219,8 +221,7 @@ class CalcomClient:
             filtered = {k: v for k, v in booking_raw.items() if k in valid_fields}
 
             logger.info(
-                f"Cal.com v2: Booking criado - "
-                f"id: {filtered.get('id')}, uid: {filtered.get('uid')}"
+                f"Cal.com v2: Booking criado - id: {filtered.get('id')}, uid: {filtered.get('uid')}"
             )
             return CalcomBooking(**filtered)
 
@@ -297,9 +298,7 @@ class CalcomClient:
                 ]
             return []
 
-    async def cancel_booking(
-        self, booking_uid: str, reason: str | None = None
-    ) -> bool:
+    async def cancel_booking(self, booking_uid: str, reason: str | None = None) -> bool:
         """
         Cancela um booking (API v2 - POST .../cancel).
 

@@ -35,6 +35,7 @@ logger = logging.getLogger(__name__)
 
 class MediaItem(TypedDict):
     """Item de mídia."""
+
     type: str  # audio, image
     url: str
     name: str
@@ -42,6 +43,7 @@ class MediaItem(TypedDict):
 
 class ParsedMessage(TypedDict):
     """Mensagem processada."""
+
     text: str
     media: list[MediaItem]
 
@@ -53,7 +55,7 @@ MEDIA_URLS = {
 }
 
 # Padrão regex para encontrar tags
-MEDIA_TAG_PATTERN = re.compile(r'\[MEDIA:(\w+)\]')
+MEDIA_TAG_PATTERN = re.compile(r"\[MEDIA:(\w+)\]")
 
 
 def parse_message(text: str) -> ParsedMessage:
@@ -78,11 +80,13 @@ def parse_message(text: str) -> ParsedMessage:
     for tag_name in tags_found:
         if tag_name in MEDIA_URLS:
             media_type = "audio" if tag_name == "AUDIO_PADRAO" else "image"
-            media_items.append({
-                "type": media_type,
-                "url": MEDIA_URLS[tag_name],
-                "name": tag_name,
-            })
+            media_items.append(
+                {
+                    "type": media_type,
+                    "url": MEDIA_URLS[tag_name],
+                    "name": tag_name,
+                }
+            )
             # Remover tag do texto
             result_text = result_text.replace(f"[MEDIA:{tag_name}]", "")
 

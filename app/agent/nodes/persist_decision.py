@@ -114,7 +114,9 @@ async def _update_lead_state(state: AgentState) -> None:
     # Atualizar estado se mudou
     if state.next_state and state.next_state != state.current_state:
         update_data["current_state"] = state.next_state.value
-        logger.info(f"🔄 Atualizando estado de {state.current_state.value} para {state.next_state.value}")
+        logger.info(
+            f"🔄 Atualizando estado de {state.current_state.value} para {state.next_state.value}"
+        )
 
     # Atualizar flags
     if state.no_money_flag:
@@ -123,12 +125,14 @@ async def _update_lead_state(state: AgentState) -> None:
 
     if update_data:
         logger.info(f"💾 Salvando no banco: lead_id={state.lead_id}, update_data={update_data}")
-        
+
         # Fazer update e verificar se funcionou
         result = await repo.update(state.lead_id, **update_data)
-        
+
         if result:
-            logger.info(f"✅ Lead {state.lead_id} atualizado com sucesso: {result.current_state.value}")
+            logger.info(
+                f"✅ Lead {state.lead_id} atualizado com sucesso: {result.current_state.value}"
+            )
         else:
             logger.error(f"❌ FALHA ao atualizar lead {state.lead_id} - update retornou None!")
     else:
@@ -225,6 +229,7 @@ async def _execute_state_actions(state: AgentState) -> None:
     # Cancelar follow
     if "cancel_follow" in state.actions:
         from app.repositories.follow_jobs_repository import FollowJobsRepository
+
         follow_repo = FollowJobsRepository()
         await follow_repo.cancel_by_lead(state.lead_id, reason="Lead respondeu ativamente")
         logger.info("Follow-up cancelado")

@@ -8,7 +8,7 @@ import logging
 from typing import Any
 from uuid import UUID
 
-from fastapi import Depends, Header, HTTPException, Request
+from fastapi import Header, HTTPException
 
 from app.integrations.supabase.client import get_supabase_client
 

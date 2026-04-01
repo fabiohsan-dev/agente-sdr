@@ -5,7 +5,7 @@ from uuid import UUID
 
 from supabase import Client
 
-from app.domain.enums import MessageType, MessageDirection
+from app.domain.enums import MessageDirection, MessageType
 from app.domain.message import Message
 from app.integrations.supabase.client import get_supabase_client
 
@@ -43,11 +43,7 @@ class MessagesRepository:
             "metadata": metadata or {},
         }
 
-        result = (
-            self.client.table("messages")
-            .insert(data)
-            .execute()
-        )
+        result = self.client.table("messages").insert(data).execute()
         return self._map_to_message(result.data[0])
 
     async def create_inbound_text(
@@ -98,9 +94,7 @@ class MessagesRepository:
             media_analysis=analysis,
         )
 
-    async def get_by_conversation(
-        self, conversation_id: UUID, limit: int = 50
-    ) -> list[Message]:
+    async def get_by_conversation(self, conversation_id: UUID, limit: int = 50) -> list[Message]:
         """Busca mensagens de uma conversation."""
         result = (
             self.client.table("messages")
@@ -115,12 +109,7 @@ class MessagesRepository:
 
     async def get_by_id(self, message_id: UUID) -> Message | None:
         """Busca mensagem por ID."""
-        result = (
-            self.client.table("messages")
-            .select("*")
-            .eq("id", str(message_id))
-            .execute()
-        )
+        result = self.client.table("messages").select("*").eq("id", str(message_id)).execute()
 
         if not result.data:
             return None
