@@ -1,0 +1,279 @@
+﻿================================================================================
+  TESTE DE 15 CONVERSAS REAIS ÔÇö SDR W V2
+  Modelo: gpt-5.4-mini | Temp: 0.7
+================================================================================
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #1 | Murilo Petrica | ETAPA 1 | State: NEW
+  Mensagem: "800"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.0s):
+    [1] Faaaaala Murilo, muito bom te ver por aqui!
+\
+[MEDIA:AUDIO_PADRAO]
+
+  ­ƒÅÀ´©Å  Intent: greeting | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #3 | Jhon Uch├┤a | ETAPA 1 | State: NEW
+  Mensagem: "500"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (1.4s):
+    [1] Faaaaala Jhon, muito bom te ver por aqui!
+\
+[MEDIA:AUDIO_PADRAO]
+
+  ­ƒÅÀ´©Å  Intent: greeting | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #5 | Stef├ónia Gazso | ETAPA 1 | State: NEW
+  Mensagem: "800"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.1s):
+    [1] Faaaaala Stef├ónia, muito bom te ver por aqui!
+    [2] [MEDIA:AUDIO_PADRAO]
+
+  ­ƒÅÀ´©Å  Intent: greeting | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #6 | Luis Carlos Santos | ETAPA 1 | State: NEW
+  Mensagem: "500"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.0s):
+    [1] Faaaaala Luis Carlos Santos, muito bom te ver por aqui!
+\
+[MEDIA:AUDIO_PADRAO]
+
+  ­ƒÅÀ´©Å  Intent: greeting | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #7 | Lucas de Godoy | ETAPA 1 + PERGUNTA | State: NEW
+  Mensagem: "881. Qual o valor?"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.0s):
+    [1] Boa pergunta! O formato ideal a gente define juntos na reuni├úo, porque varia conforme o momento do escrit├│rio.
+\
+Inclusi...
+
+  ­ƒÅÀ´©Å  Intent: pricing_question | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (4/4):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à aab_applied: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #8 | Laura Costa | ETAPA 1 | State: NEW
+  Mensagem: "500"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.0s):
+    [1] Faaaaala Laura, muito bom te ver por aqui!
+\
+[MEDIA:AUDIO_PADRAO]
+
+  ­ƒÅÀ´©Å  Intent: saudacao | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #9 | Matheus Ayricke | ETAPA 1 | State: NEW
+  Mensagem: "800"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.4s):
+    [1] Faaaaala Matheus Ayricke, muito bom te ver por aqui!
+\
+[MEDIA:AUDIO_PADRAO]
+
+  ­ƒÅÀ´©Å  Intent: greeting | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #10 | Jonathan Sousa | ETAPA 1 + PERGUNTA | State: NEW
+  Mensagem: "500. Como funciona isso?"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.8s):
+    [1] Boa pergunta! Funciona de forma bem direta: a gente entende seu momento, diagnostica o que est├í travando hoje e te mostr...
+
+  ­ƒÅÀ´©Å  Intent: question_about_how_it_works | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à aab_applied: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #11 | Fernanda | ETAPA 1 + PERGUNTA | State: NEW
+  Mensagem: "881. Qual ├® o desafio que voc├¬s resolvem?"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.6s):
+    [1] Boa pergunta! A gente resolve justamente a dificuldade de sair da depend├¬ncia de indica├º├úo e criar previsibilidade comer...
+
+  ­ƒÅÀ´©Å  Intent: question_about_service | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à aab_applied: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #12 | Leonardo Lima | ETAPA 1 | State: NEW
+  Mensagem: "Quero saber mais"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.3s):
+    [1] Faaaaala Leonardo, muito bom te ver por aqui!
+\
+[MEDIA:AUDIO_PADRAO]
+
+  ­ƒÅÀ´©Å  Intent: greeting_and_qualification | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #13 | Antenor Antunes | ETAPA 1 | State: NEW
+  Mensagem: "800"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (1.4s):
+    [1] Faaaaala Antenor, muito bom te ver por aqui!
+\
+[MEDIA:AUDIO_PADRAO]
+
+  ­ƒÅÀ´©Å  Intent: greeting | Next: QUALIFYING | Pause: False
+
+  ­ƒôè CHECKS (3/3):
+    Ô£à has_audio_tag: expected=True, actual=True
+    Ô£à has_greeting: expected=True, actual=True
+    Ô£à next_state: expected=QUALIFYING, actual=QUALIFYING
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #2 | Vilmar Junior | ETAPA 2 | State: QUALIFYING
+  Mensagem: "Meu desafio ├® na ├írea de neg├│cios digitais, preciso de mais clientes"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (1.9s):
+    [1] Entendi. Esse ├® um dos problemas mais comuns hoje na advocacia.
+\
+Posso te dizer isso com bastante seguran├ºa porque cheg...
+
+  ­ƒÅÀ´©Å  Intent: qualificacao_dor | Next: WAITING_PRIORITY_CONFIRMATION | Pause: False
+
+  ­ƒôè CHECKS (3/4):
+    Ô£à has_case_tag: expected=True, actual=True
+    Ô£à has_70_30: expected=True, actual=True
+    Ô£à has_priority_question: expected=True, actual=True
+    ÔØî next_state: expected=QUALIFYING, actual=WAITING_PRIORITY_CONFIRMATION
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #4 | Manoel Nascimento | ETAPA 2 | State: QUALIFYING
+  Mensagem: "Meu maior desafio ├® ter previsibilidade de receita"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.8s):
+    [1] Entendi. Esse ├® um dos problemas mais comuns hoje na advocacia.
+\
+Posso te dizer isso com bastante seguran├ºa porque cheg...
+
+  ­ƒÅÀ´©Å  Intent: qualify_dor_previsibilidade | Next: WAITING_PRIORITY_CONFIRMATION | Pause: False
+
+  ­ƒôè CHECKS (3/4):
+    Ô£à has_case_tag: expected=True, actual=True
+    Ô£à has_70_30: expected=True, actual=True
+    Ô£à has_priority_question: expected=True, actual=True
+    ÔØî next_state: expected=QUALIFYING, actual=WAITING_PRIORITY_CONFIRMATION
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #14 | Rodrigo | ETAPA 2 + PERGUNTA NICHO | State: QUALIFYING
+  Mensagem: "Meu desafio ├® captar clientes, atuo na ├írea criminal. Voc├¬s atendem esse nicho?"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.9s):
+    [1] Criminal ├® excelente! Sim, a gente atende esse nicho e o processo ├® o mesmo independente da ├írea ­ƒÆ¬\
+E por falar nisso, e...
+
+  ­ƒÅÀ´©Å  Intent: qualify_niche_and_pain | Next: WAITING_PRIORITY_CONFIRMATION | Pause: False
+
+  ­ƒôè CHECKS (5/6):
+    Ô£à has_case_tag: expected=True, actual=True
+    Ô£à has_70_30: expected=True, actual=True
+    Ô£à has_priority_question: expected=True, actual=True
+    Ô£à aab_applied: expected=True, actual=True
+    Ô£à mentions_nicho: expected=True, actual=True
+    ÔØî next_state: expected=QUALIFYING, actual=WAITING_PRIORITY_CONFIRMATION
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  #15 | Rafael Galdino | ETAPA 2 | State: QUALIFYING
+  Mensagem: "Meu desafio ├® captar mais clientes, n├úo consigo escalar"
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+
+  ­ƒôñ RESPOSTA (2.6s):
+    [1] Entendi. Esse ├® um dos problemas mais comuns hoje na advocacia.\n\nPosso te dizer isso com bastante seguran├ºa porque che...
+
+  ­ƒÅÀ´©Å  Intent: qualificacao_dor | Next: WAITING_PRIORITY_CONFIRMATION | Pause: False
+
+  ­ƒôè CHECKS (3/4):
+    Ô£à has_case_tag: expected=True, actual=True
+    Ô£à has_70_30: expected=True, actual=True
+    Ô£à has_priority_question: expected=True, actual=True
+    ÔØî next_state: expected=QUALIFYING, actual=WAITING_PRIORITY_CONFIRMATION
+
+================================================================================
+  RESUMO FINAL
+================================================================================
+
+  Total: 48/52 checks passaram (92%)
+  Tempo total: 33.2s | M├®dia: 2.2s por conversa
+  Modelo: gpt-5.4-mini
+
+  ­ƒôì Etapa 1: 34/34 (100%)
+  ­ƒôì Etapa 2: 14/18 (78%)
+
+  ­ƒÄ» AAB (Postura Consultiva): 4/4 (100%)
+
+  ÔÜá´©Å  FALHAS DETECTADAS:
+    #2 Vilmar Junior: next_state
+    #4 Manoel Nascimento: next_state
+    #14 Rodrigo: next_state
+    #15 Rafael Galdino: next_state
+
+================================================================================

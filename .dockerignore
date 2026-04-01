@@ -1,0 +1,52 @@
+# ============================================
+# Docker ignore — excluir do build
+# ============================================
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+
+# Docs e arquivos não necessários em runtime
+*.md
+!app/agent/prompts/*.md
+LICENSE
+CHANGELOG
+
+# Infra / Scripts (não necessários no container)
+infra/scripts/*.bat
+infra/scripts/test_*.py
+infra/scripts/test_*.txt
+infra/scripts/debug_*.py
+
+# SQL (executado no Supabase, não no container)
+infra/sql/
+
+# Testes
+tests/
+
+# Env
+.env
+.env.example
+
+# LangGraph local
+.langgraph_api/
+
+# Temporários
+*.log
+*.tmp

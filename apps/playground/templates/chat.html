@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDR Agent - Playground</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🤖 SDR Agent Playground</h1>
+            <div class="header-info">
+                <span id="session-id">Session: --</span>
+                <span id="state-indicator" class="state-indicator state-NEW">Estado: NEW</span>
+            </div>
+        </header>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <!-- Messages -->
+            <div id="messages" class="messages">
+                <div class="message system-message">
+                    <div class="message-content">
+                        Bem-vindo ao SDR Agent Playground! 
+                        Teste conversas com texto, áudio (URL) ou imagem (URL).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <!-- Lead Info -->
+                <div class="lead-info">
+                    <input type="text" id="lead-name" placeholder="Seu nome (opcional)" class="input-field">
+                    <input type="email" id="lead-email" placeholder="Seu email (opcional)" class="input-field">
+                </div>
+
+                <!-- Media Options -->
+                <div class="media-options">
+                    <label class="radio-label">
+                        <input type="radio" name="message-type" value="text" checked>
+                        Texto
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="message-type" value="audio">
+                        Áudio (URL)
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="message-type" value="image">
+                        Imagem (URL)
+                    </label>
+                </div>
+
+                <!-- Media URL Input (hidden by default) -->
+                <div id="media-url-container" class="media-url-container" style="display: none;">
+                    <input type="url" id="media-url" placeholder="Cole a URL da mídia (CDN)" class="input-field full-width">
+                </div>
+
+                <!-- Message Input -->
+                <div class="message-input-container">
+                    <textarea 
+                        id="message-input" 
+                        placeholder="Digite sua mensagem..." 
+                        class="message-input"
+                        rows="3"
+                    ></textarea>
+                    <button id="send-button" class="send-button">
+                        Enviar ➤
+                    </button>
+                </div>
+
+                <!-- Actions -->
+                <div class="actions">
+                    <button id="clear-button" class="action-button secondary">
+                        🗑️ Limpar Conversa
+                    </button>
+                    <button id="new-session-button" class="action-button secondary">
+                        🔄 Nova Sessão
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-panel">
+            <h3>📊 Informações da Sessão</h3>
+            <div id="session-info" class="session-info">
+                <p>Nenhuma informação disponível ainda.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

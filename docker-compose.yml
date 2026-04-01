@@ -1,0 +1,84 @@
+# ============================================
+# SDR Agent — Docker Compose (Produção com Traefik)
+# ============================================
+# VPS com Traefik já rodando como reverse proxy.
+# O Traefik roteia tráfego externo para este container.
+#
+# Uso:
+#   docker compose up -d          # subir tudo
+#   docker compose logs -f api    # ver logs
+#   docker compose down           # parar tudo
+#
+# Pré-requisitos:
+#   1. Traefik rodando com rede "traefik" criada
+#   2. Arquivo .env configurado (copiar de .env.example)
+#   3. DNS apontando para a VPS
+
+services:
+  # ── API do Agente ─────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sdr-agent-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - APP_ENV=production
+      - API_HOST=0.0.0.0
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/health').raise_for_status()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    volumes:
+      - sdr-logs:/app/logs
+    networks:
+      - traefik
+      - internal
+    labels:
+      # ── Traefik ──────────────────────────
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik"
+      # Rota HTTP → HTTPS
+      - "traefik.http.routers.sdr-agent.rule=Host(`${SDR_DOMAIN:-sdr.seudominio.com}`)"
+      - "traefik.http.routers.sdr-agent.entrypoints=websecure"
+      - "traefik.http.routers.sdr-agent.tls.certresolver=letsencrypt"
+      - "traefik.http.services.sdr-agent.loadbalancer.server.port=8000"
+      # Health check
+      - "traefik.http.services.sdr-agent.loadbalancer.healthcheck.path=/health"
+      - "traefik.http.services.sdr-agent.loadbalancer.healthcheck.interval=30s"
+
+  # ── Redis (Cache + Filas) ─────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: sdr-agent-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 128mb --maxmemory-policy allkeys-lru
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - redis-data:/data
+    networks:
+      - internal
+
+networks:
+  traefik:
+    external: true
+  internal:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local
+  sdr-logs:
+    driver: local
