@@ -34,29 +34,20 @@ class ConversationsRepository:
         if tenant_id:
             data["tenant_id"] = str(tenant_id)
 
-        result = (
-            self.client.table("conversations")
-            .insert(data)
-            .execute()
-        )
+        result = self.client.table("conversations").insert(data).execute()
         return self._map_to_conversation(result.data[0])
 
     async def get_by_id(self, conversation_id: UUID) -> Conversation | None:
         """Busca conversation por ID."""
         result = (
-            self.client.table("conversations")
-            .select("*")
-            .eq("id", str(conversation_id))
-            .execute()
+            self.client.table("conversations").select("*").eq("id", str(conversation_id)).execute()
         )
 
         if not result.data:
             return None
         return self._map_to_conversation(result.data[0])
 
-    async def get_by_session_id(
-        self, session_id: str, lead_id: UUID
-    ) -> Conversation | None:
+    async def get_by_session_id(self, session_id: str, lead_id: UUID) -> Conversation | None:
         """Busca conversation por session_id e lead_id."""
         result = (
             self.client.table("conversations")
@@ -72,9 +63,7 @@ class ConversationsRepository:
             return None
         return self._map_to_conversation(result.data[0])
 
-    async def get_active_by_lead(
-        self, lead_id: UUID
-    ) -> Conversation | None:
+    async def get_active_by_lead(self, lead_id: UUID) -> Conversation | None:
         """Busca conversation ativa por lead."""
         result = (
             self.client.table("conversations")
@@ -92,13 +81,11 @@ class ConversationsRepository:
 
     async def deactivate(self, conversation_id: UUID) -> None:
         """Desativa uma conversation."""
-        self.client.table("conversations").update(
-            {"is_active": False}
-        ).eq("id", str(conversation_id)).execute()
+        self.client.table("conversations").update({"is_active": False}).eq(
+            "id", str(conversation_id)
+        ).execute()
 
-    async def get_recent_messages(
-        self, conversation_id: UUID, limit: int = 10
-    ) -> list[dict]:
+    async def get_recent_messages(self, conversation_id: UUID, limit: int = 10) -> list[dict]:
         """Busca mensagens recentes de uma conversation."""
         result = (
             self.client.table("messages")

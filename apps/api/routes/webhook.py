@@ -114,9 +114,7 @@ async def chatwoot_webhook(
     tenant = None
     tenant_id = None
     if payload.conversation and payload.conversation.account_id:
-        tenant = await resolve_tenant_by_chatwoot_account(
-            payload.conversation.account_id
-        )
+        tenant = await resolve_tenant_by_chatwoot_account(payload.conversation.account_id)
         if tenant:
             tenant_id = tenant.tenant_id
             logger.info(f"Tenant resolvido: {tenant.slug} ({tenant.tenant_id})")
@@ -189,7 +187,7 @@ async def chatwoot_webhook(
 
     reply = result.reply_text
     if not reply:
-        logger.info(f"Webhook Chatwoot: sem resposta (paused/empty)")
+        logger.info("Webhook Chatwoot: sem resposta (paused/empty)")
         return {"status": "ok", "reason": "no_reply"}
 
     try:
@@ -209,10 +207,7 @@ async def chatwoot_webhook(
 
         # Atualizar custom_attributes do contato com estágio
         if payload.sender and payload.sender.id:
-            new_state = (
-                result.next_state.value if result.next_state
-                else result.current_state.value
-            )
+            new_state = result.next_state.value if result.next_state else result.current_state.value
             try:
                 await chatwoot.update_contact(
                     contact_id=payload.sender.id,

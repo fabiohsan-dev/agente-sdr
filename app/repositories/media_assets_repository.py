@@ -5,7 +5,7 @@ from uuid import UUID
 
 from supabase import Client
 
-from app.domain.enums import MediaType, MediaStatus
+from app.domain.enums import MediaStatus, MediaType
 from app.integrations.supabase.client import get_supabase_client
 
 
@@ -39,21 +39,12 @@ class MediaAssetsRepository:
             "metadata": metadata or {},
         }
 
-        result = (
-            self.client.table("media_assets")
-            .insert(data)
-            .execute()
-        )
+        result = self.client.table("media_assets").insert(data).execute()
         return result.data[0]
 
     async def get_by_id(self, asset_id: UUID) -> dict | None:
         """Busca media asset por ID."""
-        result = (
-            self.client.table("media_assets")
-            .select("*")
-            .eq("id", str(asset_id))
-            .execute()
-        )
+        result = self.client.table("media_assets").select("*").eq("id", str(asset_id)).execute()
 
         if not result.data:
             return None
@@ -101,10 +92,7 @@ class MediaAssetsRepository:
             update_data["analysis"] = analysis
 
         result = (
-            self.client.table("media_assets")
-            .update(update_data)
-            .eq("id", str(asset_id))
-            .execute()
+            self.client.table("media_assets").update(update_data).eq("id", str(asset_id)).execute()
         )
 
         if not result.data:

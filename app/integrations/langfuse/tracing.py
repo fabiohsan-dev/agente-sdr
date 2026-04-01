@@ -8,8 +8,9 @@ Configuração fail-safe: se não tiver chaves, não faz nada.
 
 import logging
 import os
+from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Any, Generator
+from typing import Any
 from uuid import UUID
 
 from app.config.settings import get_settings
@@ -53,6 +54,7 @@ class LangfuseTracing:
             os.environ["LANGFUSE_HOST"] = settings.langfuse_host
 
             from langfuse import Langfuse
+
             self._client = Langfuse()
             self._initialized = True
             logger.info("✅ Langfuse v4: tracing ativado com sucesso")

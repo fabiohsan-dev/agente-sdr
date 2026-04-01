@@ -132,7 +132,9 @@ class AudioProcessingService:
                 "segments": transcription.segments if hasattr(transcription, "segments") else [],
             }
 
-            logger.info(f"Áudio transcrito com timestamps: {len(result['transcription'])} caracteres")
+            logger.info(
+                f"Áudio transcrito com timestamps: {len(result['transcription'])} caracteres"
+            )
             return result
 
         except Exception as e:

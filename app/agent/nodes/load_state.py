@@ -29,35 +29,39 @@ async def load_state(state: AgentState) -> AgentState:
     conversation = None
     if state.session_id:
         logger.info(f"🔍 Buscando conversation por session_id: {state.session_id}")
-        
+
         # Buscar conversation ativa mais recente com esta session_id
         try:
-            result = conversations_repo.client.table("conversations")\
-                .select("*")\
-                .eq("session_id", state.session_id)\
-                .eq("is_active", True)\
-                .order("created_at", desc=True)\
-                .limit(1)\
+            result = (
+                conversations_repo.client.table("conversations")
+                .select("*")
+                .eq("session_id", state.session_id)
+                .eq("is_active", True)
+                .order("created_at", desc=True)
+                .limit(1)
                 .execute()
-            
-            logger.info(f"   Resultado da busca: {len(result.data) if result.data else 0} conversations")
-            
+            )
+
+            logger.info(
+                f"   Resultado da busca: {len(result.data) if result.data else 0} conversations"
+            )
+
             if result.data:
                 conversation = conversations_repo._map_to_conversation(result.data[0])
                 logger.info(f"✅ Conversation encontrada: {conversation.id}")
                 logger.info(f"   Lead ID: {conversation.lead_id}")
-                
+
                 # Buscar lead associado a esta conversation
                 if conversation.lead_id:
                     lead = await leads_repo.get_by_id(conversation.lead_id)
                     if lead:
                         logger.info(f"✅ Lead encontrado: {lead.id}")
                         logger.info(f"   Estado atual: {lead.current_state.value}")
-                        
+
                         state.update_from_lead(lead)
                         state.lead_id = lead.id
                         state.conversation_id = conversation.id
-                        
+
                         # Carregar mensagens recentes
                         recent_messages = await conversations_repo.get_recent_messages(
                             conversation_id=conversation.id,
@@ -66,7 +70,7 @@ async def load_state(state: AgentState) -> AgentState:
                         state.recent_messages = recent_messages
                         state.conversation_context = _build_conversation_context(recent_messages)
                         logger.info(f"📜 Contexto carregado: {len(recent_messages)} mensagens")
-                        
+
                         # Atualizar system context e state_before
                         state.system_context = state.build_system_context()
                         state.mark_state_before()
@@ -92,7 +96,9 @@ async def load_state(state: AgentState) -> AgentState:
         if lead:
             state.update_from_lead(lead)
             state.lead_id = lead.id  # Garantir que lead_id está no estado
-            logger.info(f"✅ Lead carregado por ID: {state.lead_id} (estado: {lead.current_state.value})")
+            logger.info(
+                f"✅ Lead carregado por ID: {state.lead_id} (estado: {lead.current_state.value})"
+            )
         else:
             state.error = f"Lead não encontrado: {state.lead_id}"
             logger.error(f"Lead não encontrado: {state.lead_id}")
@@ -121,8 +127,10 @@ async def load_state(state: AgentState) -> AgentState:
     # ============================================
 
     if state.lead_id and state.session_id:
-        logger.info(f"💾 Criando nova conversation: lead_id={state.lead_id}, session_id={state.session_id}")
-        
+        logger.info(
+            f"💾 Criando nova conversation: lead_id={state.lead_id}, session_id={state.session_id}"
+        )
+
         conversation = await conversations_repo.create(
             lead_id=state.lead_id,
             session_id=state.session_id,

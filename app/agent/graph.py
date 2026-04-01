@@ -6,7 +6,6 @@ configurada nas integrações correspondentes.
 """
 
 import logging
-from typing import Literal
 
 from langgraph.graph import END, StateGraph
 
@@ -128,6 +127,7 @@ def check_llm_configuration() -> bool:
     """
     try:
         from app.config.settings import get_settings
+
         settings = get_settings()
 
         # Verificar se OpenAI está configurada
@@ -150,4 +150,3 @@ def check_llm_configuration() -> bool:
 # O LangGraph Platform exige um objeto compilado no nível do módulo.
 
 graph = create_agent_graph()
-

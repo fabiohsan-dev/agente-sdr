@@ -42,29 +42,18 @@ class BookingsRepository:
             "status": status,
         }
 
-        result = (
-            self.client.table("bookings")
-            .insert(data)
-            .execute()
-        )
+        result = self.client.table("bookings").insert(data).execute()
         return self._map_to_booking(result.data[0])
 
     async def get_by_id(self, booking_id: UUID) -> Booking | None:
         """Busca booking por ID."""
-        result = (
-            self.client.table("bookings")
-            .select("*")
-            .eq("id", str(booking_id))
-            .execute()
-        )
+        result = self.client.table("bookings").select("*").eq("id", str(booking_id)).execute()
 
         if not result.data:
             return None
         return self._map_to_booking(result.data[0])
 
-    async def get_by_calcom_id(
-        self, calcom_booking_id: int
-    ) -> Booking | None:
+    async def get_by_calcom_id(self, calcom_booking_id: int) -> Booking | None:
         """Busca booking por ID do Cal.com."""
         result = (
             self.client.table("bookings")
@@ -105,9 +94,7 @@ class BookingsRepository:
             return None
         return self._map_to_booking(result.data[0])
 
-    async def update_status(
-        self, booking_id: UUID, status: str
-    ) -> Booking | None:
+    async def update_status(self, booking_id: UUID, status: str) -> Booking | None:
         """Atualiza status do booking."""
         result = (
             self.client.table("bookings")
@@ -120,9 +107,7 @@ class BookingsRepository:
             return None
         return self._map_to_booking(result.data[0])
 
-    async def cancel(
-        self, booking_id: UUID, reason: str | None = None
-    ) -> Booking | None:
+    async def cancel(self, booking_id: UUID, reason: str | None = None) -> Booking | None:
         """Cancela um booking."""
         result = (
             self.client.table("bookings")
@@ -153,14 +138,10 @@ class BookingsRepository:
             timezone=data.get("timezone", "America/Sao_Paulo"),
             status=data.get("status", "confirmed"),
             cancelled_at=(
-                datetime.fromisoformat(data["cancelled_at"])
-                if data.get("cancelled_at")
-                else None
+                datetime.fromisoformat(data["cancelled_at"]) if data.get("cancelled_at") else None
             ),
             rescheduled_from_id=(
-                UUID(data["rescheduled_from_id"])
-                if data.get("rescheduled_from_id")
-                else None
+                UUID(data["rescheduled_from_id"]) if data.get("rescheduled_from_id") else None
             ),
             meeting_url=data.get("meeting_url"),
             calcom_data=data.get("calcom_data") or {},

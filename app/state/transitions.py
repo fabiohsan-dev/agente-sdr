@@ -102,9 +102,7 @@ class StateTransitions:
         return to_state in cls.VALID_TRANSITIONS[from_state]
 
     @classmethod
-    def apply_transition(
-        cls, state: AgentState, target_state: LeadState
-    ) -> AgentState:
+    def apply_transition(cls, state: AgentState, target_state: LeadState) -> AgentState:
         """
         Aplica transição de estado se for válida.
 

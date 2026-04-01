@@ -1,18 +1,13 @@
 """Rota de chat."""
 
 import logging
-from datetime import datetime
-from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException
 
 from app.agent.graph import run_agent
-from app.domain.enums import MessageType
 from app.middleware.tenant import TenantContext, get_tenant_optional
 from app.repositories.leads_repository import LeadsRepository
-from app.repositories.messages_repository import MessagesRepository
 from app.schemas.chat import ChatRequest, ChatResponse
-from app.services.inbound_service import get_inbound_service
 from app.state.lead_states import AgentState
 
 logger = logging.getLogger(__name__)
@@ -73,23 +68,13 @@ async def chat(
         logger.info(f"Novo lead criado: {lead.id}")
 
     # ============================================
-    # SALVAR MENSAGEM INBOUND
-    # ============================================
-
-    inbound_service = get_inbound_service()
-    conversation_id = None
-
-    # Nota: conversation_id será criado pelo LangGraph no node load_state
-    # Aqui apenas salvamos a mensagem se já existir conversation
-
-    # ============================================
     # PREPARAR ESTADO DO AGENTE
     # ============================================
 
     # IMPORTANTE: NÃO passar lead_id se temos session_id!
     # O load_state deve buscar conversation pela session_id PRIMEIRO
     # Se passar lead_id, ele pula a busca e cria novo lead
-    
+
     agent_state = AgentState(
         lead_id=None,  # ← NÃO passar lead_id! Load_state busca por session_id
         session_id=request.session_id,

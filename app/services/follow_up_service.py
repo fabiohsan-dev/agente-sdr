@@ -194,8 +194,7 @@ class FollowUpService:
         )
 
         logger.info(
-            f"📩 Follow {next_step}/4 agendado para lead {lead_id}: "
-            f"{scheduled_for} (+{delay})"
+            f"📩 Follow {next_step}/4 agendado para lead {lead_id}: {scheduled_for} (+{delay})"
         )
 
         return follow_job

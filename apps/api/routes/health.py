@@ -25,6 +25,7 @@ async def readiness_check():
     # ── Supabase ────────────────────────────
     try:
         from app.integrations.supabase.client import get_supabase_client
+
         client = get_supabase_client()
         start = time.time()
         client.table("leads").select("id").limit(1).execute()
@@ -39,6 +40,7 @@ async def readiness_check():
     # ── OpenAI ──────────────────────────────
     try:
         from app.config.settings import get_settings
+
         settings = get_settings()
         checks["openai"] = {
             "status": "ok" if settings.openai_api_key else "not_configured",
@@ -50,6 +52,7 @@ async def readiness_check():
     # ── Chatwoot ────────────────────────────
     try:
         from app.config.settings import get_settings
+
         settings = get_settings()
         checks["chatwoot"] = {
             "status": "ok" if settings.chatwoot_enabled else "not_configured",
@@ -60,6 +63,7 @@ async def readiness_check():
     # ── Cal.com ─────────────────────────────
     try:
         from app.config.settings import get_settings
+
         settings = get_settings()
         checks["calcom"] = {
             "status": "ok" if settings.calcom_enabled else "not_configured",
@@ -70,6 +74,7 @@ async def readiness_check():
     # ── Langfuse ────────────────────────────
     try:
         from app.config.settings import get_settings
+
         settings = get_settings()
         checks["langfuse"] = {
             "status": "ok" if settings.langfuse_enabled else "not_configured",

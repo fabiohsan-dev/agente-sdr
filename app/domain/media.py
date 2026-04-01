@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
-from app.domain.enums import MediaType, MediaStatus
+from app.domain.enums import MediaStatus, MediaType
 
 
 class MediaAsset(BaseModel):

@@ -73,8 +73,7 @@ class ChatwootClient:
             resp.raise_for_status()
             data = resp.json()
             logger.info(
-                f"Mensagem enviada ao Chatwoot: conv={conversation_id}, "
-                f"msg_id={data.get('id')}"
+                f"Mensagem enviada ao Chatwoot: conv={conversation_id}, msg_id={data.get('id')}"
             )
             return data
         except httpx.HTTPStatusError as e:

@@ -235,8 +235,7 @@ class Settings(BaseSettings):
         """Valida se OpenAI API Key está configurada."""
         if not v or v.strip() == "":
             raise ValueError(
-                "OPENAI_API_KEY é obrigatória. "
-                "Obtenha em: https://platform.openai.com/api-keys"
+                "OPENAI_API_KEY é obrigatória. Obtenha em: https://platform.openai.com/api-keys"
             )
         return v.strip()
 
@@ -245,10 +244,7 @@ class Settings(BaseSettings):
     def validate_supabase_url(cls, v: str) -> str:
         """Valida se Supabase URL está configurada."""
         if not v or v.strip() == "":
-            raise ValueError(
-                "SUPABASE_URL é obrigatória. "
-                "Obtenha em: https://app.supabase.com"
-            )
+            raise ValueError("SUPABASE_URL é obrigatória. Obtenha em: https://app.supabase.com")
         return v.strip()
 
     @field_validator("supabase_service_role_key")
@@ -300,9 +296,7 @@ class Settings(BaseSettings):
     def chatwoot_enabled(self) -> bool:
         """Retorna True se Chatwoot estiver configurado."""
         return bool(
-            self.chatwoot_base_url
-            and self.chatwoot_api_token
-            and self.chatwoot_account_id > 0
+            self.chatwoot_base_url and self.chatwoot_api_token and self.chatwoot_account_id > 0
         )
 
     @property
@@ -388,8 +382,12 @@ def check_settings() -> None:
         print("\nSERVIÇOS EXTERNOS:")
         print(f"  ✅ OpenAI: {'Configurado' if status['openai'] else '❌ Não configurado'}")
         print(f"  ✅ Supabase: {'Configurado' if status['supabase'] else '❌ Não configurado'}")
-        print(f"  {'✅' if status['calcom'] else '⚪'} Cal.com: {'Configurado' if status['calcom'] else 'Não configurado (opcional)'}")
-        print(f"  {'✅' if status['langfuse'] else '⚪'} Langfuse: {'Configurado' if status['langfuse'] else 'Não configurado (opcional)'}")
+        print(
+            f"  {'✅' if status['calcom'] else '⚪'} Cal.com: {'Configurado' if status['calcom'] else 'Não configurado (opcional)'}"
+        )
+        print(
+            f"  {'✅' if status['langfuse'] else '⚪'} Langfuse: {'Configurado' if status['langfuse'] else 'Não configurado (opcional)'}"
+        )
 
         # Verificar se há chaves faltando
         missing = settings.get_required_keys()
