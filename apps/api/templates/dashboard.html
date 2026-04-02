@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard | SDR Agent</title>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    
+    <!-- Pass variables to JS -->
+    <script>
+        const chartHistoryData = {{ history | tojson | safe }};
+        const funnelStatesData = {{ funnel_states | tojson | safe }};
+    </script>
+</head>
+<body>
+    <div class="app-layout">
+        {% include 'components/sidebar.html' %}
+        
+        <main class="main-content">
+            <header class="top-header">
+                <div>
+                    <h1 class="top-header__title">Welcome back, SDR Agent 👋</h1>
+                    <p style="color: var(--color-text-secondary); font-size: var(--font-size-sm); margin-top: var(--space-2xs);">
+                        Here's your pipeline overview. Updated at {{ last_update }}.
+                    </p>
+                </div>
+                <div class="top-header__actions">
+                    <button class="btn btn--secondary">Last 7 Days</button>
+                    <button class="btn btn--primary" onclick="alert('Funcionalidade simulada')">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+                        Add Data
+                    </button>
+                </div>
+            </header>
+
+            <section class="grid-kpi">
+                {% include 'components/kpi_card.html' with context %}
+            </section>
+
+            <section class="grid-charts">
+                <div class="card">
+                    <h2 class="card__title" style="color: var(--color-text-primary); font-size: var(--font-size-base); font-weight: 500;">
+                        Leads vs Bookings Trends
+                    </h2>
+                    <div class="chart-wrapper">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2 class="card__title" style="color: var(--color-text-primary); font-size: var(--font-size-base); font-weight: 500;">
+                        Traffic Sources (Funnel)
+                    </h2>
+                    <div class="donut-wrapper">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section class="grid-charts" style="grid-template-columns: 1fr;">
+                <div class="card">
+                    <div class="card__header" style="margin-bottom: var(--space-md);">
+                        <h2 class="card__title" style="color: var(--color-text-primary); font-size: var(--font-size-base); font-weight: 500; margin:0;">
+                            Leads Em Andamento
+                        </h2>
+                        <button class="btn btn--secondary" style="padding: 4px 12px; font-size: 12px;">View All</button>
+                    </div>
+                    {% include 'components/data_table.html' %}
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Scripts para renderizar os gráficos -->
+    <script>
+        // Configurações Globais do Chart.js para Dark Mode
+        Chart.defaults.color = '#888888';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.scale.grid.color = 'rgba(255, 255, 255, 0.06)';
+        
+        // -------------------------
+        // Line Chart (Leads vs Agendados)
+        // -------------------------
+        const ctxLine = document.getElementById('lineChart').getContext('2d');
+        
+        // Criar gradiente laranja
+        let gradientOrange = ctxLine.createLinearGradient(0, 0, 0, 400);
+        gradientOrange.addColorStop(0, 'rgba(251, 127, 63, 0.4)');
+        gradientOrange.addColorStop(1, 'rgba(251, 127, 63, 0.0)');
+
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: chartHistoryData.labels,
+                datasets: [
+                    {
+                        label: 'Total Leads',
+                        data: chartHistoryData.leads_data,
+                        borderColor: '#fb7f3f', // brand-primary
+                        backgroundColor: gradientOrange,
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#0a0a0a',
+                        pointBorderColor: '#fb7f3f',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    },
+                    {
+                        label: 'Bookings',
+                        data: chartHistoryData.bookings_data,
+                        borderColor: '#ffffff',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: false,
+                        pointBackgroundColor: '#0a0a0a',
+                        pointBorderColor: '#ffffff',
+                        pointRadius: 3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true, boxWidth: 8 }
+                    },
+                    tooltip: {
+                        backgroundColor: '#1a1a1a',
+                        titleColor: '#fff',
+                        bodyColor: '#ccc',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        border: { display: false }
+                    },
+                    x: {
+                        grid: { display: false },
+                        border: { display: false }
+                    }
+                }
+            }
+        });
+
+        // -------------------------
+        // Donut Chart (Funnel)
+        // -------------------------
+        const ctxDonut = document.getElementById('donutChart').getContext('2d');
+        
+        // Extrair labels e dados
+        const donutLabels = funnelStatesData.map(f => f[1]);
+        const donutData = funnelStatesData.map(f => f[2]);
+        // Cores baseadas no CSS
+        const donutColors = ['#6366f1', '#8b5cf6', '#e879f9', '#f472b6', '#22c55e'];
+
+        new Chart(ctxDonut, {
+            type: 'doughnut',
+            data: {
+                labels: donutLabels,
+                datasets: [{
+                    data: donutData,
+                    backgroundColor: donutColors,
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { usePointStyle: true, boxWidth: 8, padding: 15 }
+                    }
+                }
+            }
+        });
+
+        // Auto reload a cada 60 segundos
+        setTimeout(() => location.reload(), 60000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th style="width: 40px;"></th>
+                <th>Contato</th>
+                <th>Etapa do Funil</th>
+                <th>Data da Última Ação</th>
+                <th>Status</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for idx in range([recent_leads|length, 5]|min) %}
+            {% set lead = recent_leads[idx] %}
+            <tr>
+                <td>
+                    <div style="width: 24px; height: 24px; border-radius: 4px; background: var(--color-bg-base); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center;">
+                        <svg width="12" height="12" fill="none" stroke="var(--color-text-secondary)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle></svg>
+                    </div>
+                </td>
+                <td>
+                    <div style="font-weight: 500;">{{ lead.name }}</div>
+                    <div style="font-size: var(--font-size-xs); color: var(--color-text-secondary); margin-top: 2px;">{{ lead.phone }}</div>
+                </td>
+                <td>
+                    <span style="color: var(--color-text-primary);">{{ lead.current_state }}</span>
+                </td>
+                <td>
+                    {% if lead.updated_at %}
+                       {{ lead.updated_at[:10] }}
+                    {% else %}
+                       {{ lead.created_at[:10] }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if "WAITING" in lead.current_state %}
+                        <span class="tag tag--neutral">Pendente</span>
+                    {% elif "BOOKING" in lead.current_state or lead.current_state == "SCHEDULED" %}
+                        <span class="tag tag--success">Avançado</span>
+                    {% else %}
+                        <span class="tag tag--brand">Ativo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <button class="btn btn--secondary" style="padding: 4px 8px; font-size: 12px; height: auto;">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        View
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+            {% if not recent_leads %}
+            <tr>
+                <td colspan="6" style="text-align: center; color: var(--color-text-secondary); padding: 2rem;">
+                    Nenhum lead em andamento no momento.
+                </td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>

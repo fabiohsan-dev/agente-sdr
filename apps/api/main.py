@@ -6,6 +6,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 # ============================================
 # CARREGAR .ENV EXPLICITAMENTE
@@ -56,6 +57,14 @@ app.include_router(chat.router)
 app.include_router(media.router)
 app.include_router(webhook.router)
 app.include_router(metrics.router)
+
+# ============================================
+# STATIC FILES
+# ============================================
+
+static_dir = Path(__file__).parent / "static"
+static_dir.mkdir(parents=True, exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
 # ============================================
 # HEALTH CHECKS
