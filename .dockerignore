@@ -24,6 +24,7 @@ htmlcov/
 
 # Docs e arquivos não necessários em runtime
 *.md
+!README.md
 !app/agent/prompts/*.md
 LICENSE
 CHANGELOG
