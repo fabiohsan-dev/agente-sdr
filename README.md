@@ -1,43 +1,46 @@
-# SDR Agent
+# SDR Agent — Integração Chatwoot & Supabase
 
-Agente SDR (Sales Development Representative) com LangGraph, FastAPI e Supabase para qualificação de leads e agendamento de reuniões.
+Agente SDR (Sales Development Representative) inteligente potencializado pelo **LangGraph** e desenhado para qualificação de leads, agendamentos via **Cal.com** e operação nativa integrada ao **Chatwoot** como Caixa de Entrada.
 
-## 🎯 Objetivo
+## 🎯 Visão Geral e Objetivo
 
-Construir um agente SDR local que:
-- Qualifica leads de forma consultiva
-- Gerencia estados do lead (NEW, QUALIFYING, SCHEDULED, etc.)
-- Agenda reuniões via Cal.com
-- Processa mídia (áudio e imagem) via CDN
-- Mantém rastreabilidade completa com Langfuse
+Diferente de fluxos rígidos guiados por bots tradicionais, este Agente opera como um vendedor consultivo utilizando grafos conversacionais (LangGraph) para:
+- **Qualificar Leads Dinamicamente:** Avalia urgência, budget, fit, prioridade e tempo de forma flexível.
+- **Gerenciar Estado Comercial:** Gerencia com precisão as etapas de qualificação (do primeiro contato até o fechamento ou rejeição).
+- **Integração Real-time com Chatwoot:** Atua como um operador invisível respondendo caixas de entrada de Instagram, WhatsApp e Web do Chatwoot de maneira autônoma através de Webhooks.
+- **Agendamento Ativo:** Conecta com a API (V1) do Cal.com para garantir reunião caso a qualificação do lead seja sucesso.
+- **Transparência Total (Dashboard):** Um painel de acompanhamento de funil e conversão operando no servidor.
 
-## 🏗️ Arquitetura
+---
+
+## 🏗️ Arquitetura Moderna
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    PLAYGROUND (HTML/JS)                      │
-│                    http://localhost:8001                     │
-└─────────────────────────────────────────────────────────────┘
+│                       FRONT-ENDS                            │
+│ ┌──────────────────────┐           ┌──────────────────────┐ │
+│ │  Chatwoot Inbox      │           │ Playground / Dev     │ │
+│ │  (Insta, Wapp, Web)  │           │ Localhost:8001       │ │
+│ └──────────┬───────────┘           └──────────┬───────────┘ │
+└────────────┼──────────────────────────────────┼─────────────┘
+             │ WebSocket/Webhook                │ HTTP
+             ▼                                  ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      API FastAPI                            │
+│  ┌─────────────────┐ ┌─────────────────┐ ┌───────────────┐  │
+│  │ /webhook/       │ │ /metrics/       │ │ /chat         │  │
+│  │ chatwoot/message│ │ dashboard       │ │ (Dev API)     │  │
+│  └─────────────────┘ └─────────────────┘ └───────────────┘  │
+└─────────────────────────────┬───────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                      API FastAPI                             │
-│                    http://localhost:8000                     │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐          │
-│  │  /chat      │  │  /media     │  │  /health    │          │
-│  └─────────────┘  └─────────────┘  └─────────────┘          │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    LANGGRAPH AGENT                           │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│  │  ingest  │→│  load    │→│  rules   │→│  classify│        │
-│  └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐        │
-│  │  decide  │→│  tools   │→│  generate│→│  persist │        │
-│  └──────────┘ └──────────┘ └──────────┘ └──────────┘        │
-└─────────────────────────────────────────────────────────────┘
+│                    LANGGRAPH AGENT                          │
+│                                                             │
+│  [ ingest ] ─→ [ load ] ─→ [ rules ] ─→ [ classify ]        │
+│                                              │              │
+│  [ persist ] ←─ [ generate ] ←─ [ tools ] ←─ [ decide ]     │
+└─────────────────────────────┬───────────────────────────────┘
                               │
             ┌─────────────────┼─────────────────┐
             ▼                 ▼                 ▼
@@ -47,339 +50,131 @@ Construir um agente SDR local que:
     └──────────────┘  └──────────────┘  └──────────────┘
 ```
 
-## 📁 Estrutura do Projeto
+---
 
-```
-sdr-agent-project/
-├── apps/
-│   ├── api/                    # API FastAPI
-│   │   ├── main.py
-│   │   ├── routes/
-│   │   │   ├── chat.py         # Endpoint de chat
-│   │   │   ├── media.py        # Endpoint de mídia
-│   │   │   └── health.py       # Health check
-│   │   └── deps.py
-│   │
-│   └── playground/             # Playground Web
-│       ├── server.py
-│       ├── templates/
-│       │   └── chat.html
-│       └── static/
-│           ├── app.js
-│           └── styles.css
-│
-├── app/
-│   ├── config/                 # Configurações
-│   │   ├── settings.py
-│   │   └── logging.py
-│   │
-│   ├── domain/                 # Modelos de domínio
-│   │   ├── lead.py
-│   │   ├── conversation.py
-│   │   ├── booking.py
-│   │   └── enums.py
-│   │
-│   ├── state/                  # Estados e guards
-│   │   ├── lead_states.py
-│   │   ├── guards.py
-│   │   ├── transitions.py
-│   │   └── snapshots.py
-│   │
-│   ├── agent/                  # Agente LangGraph
-│   │   ├── graph.py
-│   │   ├── nodes/
-│   │   │   ├── ingest_message.py
-│   │   │   ├── load_state.py
-│   │   │   ├── apply_hard_rules.py
-│   │   │   ├── classify_intent.py
-│   │   │   ├── decide_stage.py
-│   │   │   ├── maybe_process_media.py
-│   │   │   ├── maybe_call_tools.py
-│   │   │   ├── generate_reply.py
-│   │   │   ├── persist_decision.py
-│   │   │   └── finalize.py
-│   │   ├── prompts/
-│   │   │   ├── system.md
-│   │   │   ├── rules.md
-│   │   │   ├── media.md
-│   │   │   └── stages.md
-│   │   └── models/
-│   │       └── structured_outputs.py
-│   │
-│   ├── services/               # Serviços
-│   │   ├── inbound_service.py
-│   │   ├── outbound_service.py
-│   │   ├── booking_service.py
-│   │   ├── follow_up_service.py
-│   │   ├── media_download_service.py
-│   │   ├── audio_processing_service.py
-│   │   ├── image_processing_service.py
-│   │   └── context_service.py
-│   │
-│   ├── integrations/           # Integrações externas
-│   │   ├── supabase/
-│   │   ├── calcom/
-│   │   ├── langfuse/
-│   │   └── openai/
-│   │
-│   ├── repositories/           # Repositórios (banco)
-│   │   ├── leads_repository.py
-│   │   ├── conversations_repository.py
-│   │   ├── messages_repository.py
-│   │   ├── bookings_repository.py
-│   │   ├── follow_jobs_repository.py
-│   │   ├── media_assets_repository.py
-│   │   └── agent_snapshots_repository.py
-│   │
-│   ├── schemas/                # Schemas Pydantic
-│   │   ├── chat.py
-│   │   ├── leads.py
-│   │   ├── bookings.py
-│   │   └── media.py
-│   │
-│   └── utils/                  # Utilitários
-│       ├── datetime.py
-│       ├── text.py
-│       └── ids.py
-│
-├── infra/
-│   ├── sql/
-│   │   ├── schema.sql          # Schema do Supabase
-│   │   └── migrations/
-│   └── scripts/
-│       ├── setup.bat           # Setup Windows
-│       ├── run_api.bat         # Rodar API
-│       └── run_playground.bat  # Rodar Playground
-│
-├── tests/
-│   ├── unit/
-│   ├── integration/
-│   └── e2e/
-│
-├── .env.example
-├── pyproject.toml
-└── README.md
-```
+## 🚀 Como Fazer Deploy na VPS (Docker + Traefik)
 
-## 🚀 Quick Start (Windows)
+O projeto possui uma infraestrutura 100% conteinerizada, desenhada para ser orquestrada com Docker Compose e exposta seguramente por um [Traefik](https://traefik.io/) Proxy reverso pré-existente.
 
-### 1. Pré-requisitos
+### 1. Requisitos na Máquina Alvo
+- Docker e Docker Compose instalados.
+- Traefik configurado criando a network `traefik`.
+- Um subdomínio garantido (Exemplo: `sdr.meudominio.com`).
+- Conta e Supabase rodando (projeto criado via Painel da Supabase).
 
-- Python 3.11+
-- Conta no Supabase (gratuito)
-- API Key da OpenAI
-- (Opcional) Cal.com para agendamento
-- (Opcional) Langfuse para observabilidade
+### 2. Configurações Prévias
 
-### 2. Configuração Automática
-
+Clone o repositório na sua VPS:
 ```bash
-# Navegue até a pasta do projeto
-cd sdr-agent-project
-
-# Execute configuração automática
-infra\scripts\configure.bat
+git clone https://github.com/fabiohsan-dev/agente-w-sdr.git
+cd agente-w-sdr
 ```
 
-Este script vai:
-- ✅ Criar ambiente virtual
-- ✅ Copiar `.env.example` para `.env`
-- ✅ Gerar segredos internos automaticamente
-- ✅ Instalar dependências
-- ✅ Verificar configurações
+Crie o arquivo de variáveis de ambiente:
+```bash
+cp .env.example .env
+```
 
-### 3. Configurar Chaves Externas
-
-Edite o arquivo `.env` e configure:
-
+Configure pelo menos as obrigatoriedades do seu **`.env`**:
 ```env
-# OpenAI (OBRIGATÓRIO)
-# Obter em: https://platform.openai.com/api-keys
-OPENAI_API_KEY=sk-proj-...
+# URL E CHAVE DO SUPABASE (Obrigatório)
+SUPABASE_URL=https://<seu-projeto>.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
 
-# Supabase (OBRIGATÓRIO)
-# Obter em: https://app.supabase.com
-SUPABASE_URL=https://xxxxx.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGc...
+# DOMÍNIO DO TRAEFIK (Obrigatório para rotas HTTPs)
+SDR_DOMAIN=sdr.meudominio.com
 
-# Cal.com (OPCIONAL)
-CALCOM_API_KEY=
-CALCOM_EVENT_TYPE_ID=
+# TOKENS DE SEGURANÇA CHATWOOT (Obrigatório para Webhook)
+CHATWOOT_URL=https://chat.seu-dominio.com
+CHATWOOT_WEBHOOK_SECRET=token-secreto
+CHATWOOT_WEBHOOK_URL_SUFFIX=/webhook/chatwoot/message
 
-# Langfuse (OPCIONAL)
-LANGFUSE_PUBLIC_KEY=
-LANGFUSE_SECRET_KEY=
+# OPENAI E CAL.COM (Obrigatórios ao Sistema Base)
+OPENAI_API_KEY=sk-proj...
+CALCOM_API_KEY=cal_live_xxxx...
+CALCOM_EVENT_TYPE_ID=1234
 ```
 
-### 4. Criar Banco no Supabase
-
-1. Acesse https://app.supabase.com
-2. Crie um novo projeto
-3. Vá para **SQL Editor**
-4. Copie e execute o conteúdo de `infra/sql/schema.sql`
-
-### 5. Verificar Configuração
+### 3. Build & Subida (Up)
 
 ```bash
-# Ativar ambiente virtual
-.venv\Scripts\activate
-
-# Verificar configurações
-python -c "from app.config.settings import check_settings; check_settings()"
+# Sobe a API e o Redis interno atrelados à rede Traefik externa.
+docker compose up -d --build
 ```
 
-### 6. Rodar o Projeto
+A partir daqui a sua API de Inteligência já subirá atrelada ao domínio definido (com SSL via Traefik).
 
-Abra **dois terminais**:
+---
 
-**Terminal 1 - API:**
+## 🛠 Integração Fácil com Chatwoot
+
+A rota oficial do Webhook não expõe seu Agente livremente. Existe uma camada de validação baseada nos tokens seguros estipulados no `.env`.
+
+1. Vá ao **Chatwoot** > Configurações > Integrações > **Webhooks**.
+2. Adicione a URL base do seu servidor rodando via docker: 
+   👉 `https://sdr.meudominio.com/webhook/chatwoot/message`
+3. Assegure-se de marcar para escutar os eventos `message_created` (Obrigatório pelo menos).
+4. O bot irá varrer automagicamente e apenas interceptar mensagens geradas "no lado do cliente" ou respostas originadas pelo usuário.
+
+> Quando uma mensagem chega do lead, o Agente carrega o histórico do *Supabase* (se existir), computa grafos, altera etapas de lead, toma ações de agendamento (via *Cal.com*) e devolve ao *Chatwoot* postando em texto para o lead.
+
+---
+
+## 📊 Dashboard de Gerenciamento e Métricas
+
+Uma grande vantagem dessa arquitetura é o **painel gerencial e analítico próprio** renderizado em tempo real pelas rotas da API em HTML e CSS unificado. 
+
+Ele processa e mapeia os seguintes estados base do seu banco Supabase ativamente e atualiza de 30 em 30 segundos!
+
+Basta acessar no seu navegador: `https://sdr.meudominio.com/metrics/dashboard`
+
+![Dashboard Visual](https://img.icons8.com/color/48/000000/dashboard-layout.png)
+*(No lado do desenvolvedor você não precisa se conectar ao Supabase para validar a adoção comercial de sua IA, basta acompanhar este atalho).*
+
+---
+
+## 💻 Desenvolvimento Local & Playground (Windows)
+
+Se for desenvolver de maneira local, você não precisará do Chatwoot no primeiro instante, nós disponibilizamos um emulador de web (Playground). 
+
+1. Tenha o *Python 3.11+* Instalado.
+2. Na raiz:
+   ```cmd
+   infra\scripts\configure.bat
+   ```
+3. Preencha seu arquivo `.env`.
+4. Abra dois painéis de terminal para rodar o emulador:
+   ```cmd
+   # Terminal 1 - A API do Agent principal
+   infra\scripts\run_api.bat
+
+   # Terminal 2 - Front-end de Emulação
+   infra\scripts\run_playground.bat
+   ```
+5. Logue em `http://localhost:8001` no browser para debugar respostas do Bot de texto sem atrapalhar sua caixa de mensagem oficial na internet!
+
+---
+
+## 🚀 CI / CD (Pipeline de Produção)
+
+Trabalhamos duro para suportar **GitHub Actions** mantendo tudo polido via padronizações modernas em Python (Linter **Ruff**). 
+Para validar o projeto a longo-prazo durante melhorias pontuais ou commit em massa, rodamos no seu projeto checkings e builds automatizados de imagem:
 ```bash
-infra\scripts\run_api.bat
-```
-API rodará em http://127.0.0.1:8000
-
-**Terminal 2 - Playground:**
-```bash
-infra\scripts\run_playground.bat
-```
-Playground rodará em http://127.0.0.1:8001
-
-### 7. Testar
-
-1. Acesse http://127.0.0.1:8001
-2. Digite uma mensagem (ex: `500`)
-3. Veja a resposta do agente
-4. Teste com URLs de áudio/imagem
-
-📖 **Guia completo:** Veja `CONFIGURACAO.md` para instruções detalhadas.
-
-## 📊 Estados do Lead
-
-| Estado | Descrição |
-|--------|-----------|
-| `NEW` | Lead novo, início da qualificação |
-| `QUALIFYING` | Em qualificação ativa |
-| `WAITING_PRIORITY_CONFIRMATION` | Aguardando confirmação de prioridade |
-| `WAITING_FIT_CONFIRMATION` | Aguardando confirmação de fit |
-| `WAITING_TIME` | Aguardando confirmação de tempo |
-| `WAITING_EMAIL` | Aguardando email para agendamento |
-| `BOOKING_IN_PROGRESS` | Processo de agendamento em andamento |
-| `SCHEDULED` | Já agendado |
-| `POST_BOOKING_PENDING_MATERIALS` | Aguardando envio de materiais |
-| `POST_BOOKING_PENDING_CHECKLIST` | Aguardando envio de checklist |
-| `NO_MONEY` | Lead disse que não tem condições |
-| `CLOSED` | Lead fechado/finalizado |
-| `PAUSED_BY_HUMAN` | Pausado por humano (handoff) |
-
-## 🔧 Regras Hard de Negócio
-
-Implementadas no código (não só no prompt):
-
-1. **NO_MONEY**: Não oferece agendamento, não faz follow, encerra com elegância
-2. **PAUSED_BY_HUMAN**: Agente não responde
-3. **SCHEDULED**: Não reinicia roteiro comercial
-4. **Lead respondeu**: Cancela follow pendente
-5. **Booking confirmado**: Muda para `POST_BOOKING_PENDING_MATERIALS`
-6. **Materiais enviados**: Muda para `POST_BOOKING_PENDING_CHECKLIST`
-
-## 🎪 Testando no Playground
-
-### Texto
-1. Selecione "Texto"
-2. Digite sua mensagem
-3. Clique em "Enviar"
-
-### Áudio (URL CDN)
-1. Selecione "Áudio (URL)"
-2. Cole a URL do arquivo de áudio (ex: https://cdn.ex.com/audio.mp3)
-3. Opcional: adicione transcrição no metadata
-4. Clique em "Enviar"
-
-### Imagem (URL CDN)
-1. Selecione "Imagem (URL)"
-2. Cole a URL da imagem (ex: https://cdn.ex.com/image.png)
-3. Opcional: adicione análise no metadata
-4. Clique em "Enviar"
-
-## 📝 API Endpoints
-
-### POST /chat/
-Envia mensagem para o agente.
-
-```json
-{
-  "session_id": "sess_abc123",
-  "message": "Olá, quero saber mais",
-  "message_type": "text",
-  "lead_email": "teste@email.com",
-  "lead_name": "João"
-}
+# Validar erros de lintagem antes de dar commit
+ruff check . --fix
 ```
 
-### POST /chat/text
-Chat simplificado de texto.
+A cada push para o repositório principal do GitHub, imagens Docker otimizadas podem ser construídas ou disponibilizadas pelo registry do Git e CI Actions sem atrito e sem esquecer caches sujos na VPS!
 
-### POST /chat/media
-Chat com mídia.
+---
 
-```json
-{
-  "session_id": "sess_abc123",
-  "media_url": "https://cdn.ex.com/audio.mp3",
-  "media_type": "audio",
-  "transcription": "transcrição do áudio",
-  "lead_email": "teste@email.com"
-}
-```
+## 📦 Dependências Principais
 
-### POST /media/process
-Processa arquivo de mídia (transcrição/análise).
+- **FastAPI / Uvicorn (uvloop)** - Performance assíncrona web.
+- **LangGraph & Langchain** - Motor cognitivo de etapas controladas.
+- **Supabase** - Postgres R/W isolado.
+- **Ruff / Pytest** - Formatação e Qualidade em Python Moderno.
+- **Docker Compose** - Empacotamento Multi-Stage.
 
-## 🔌 Integrações Futuras (Chatwoot)
-
-Esta fase **não usa Chatwoot**, mas a arquitetura está preparada:
-
-1. **Webhook endpoint**: Criar rota para receber webhooks do Chatwoot
-2. **Chatwoot client**: Implementar cliente para API do Chatwoot
-3. **Message mapping**: Mapear mensagens Chatwoot ↔ formato interno
-4. **Handoff**: Implementar handoff agent ↔ human via owner_mode
-
-Pontos de extensão:
-- `app/integrations/chatwoot/` (nova pasta)
-- `app/agent/nodes/maybe_call_tools.py` (adicionar chatwoot tool)
-- `apps/api/routes/chatwoot_webhook.py` (nova rota)
-
-## 🧪 Testes
-
-```bash
-# Rodar testes
-pytest
-
-# Com coverage
-pytest --cov=app --cov-report=html
-```
-
-## 📦 Dependências
-
-- **fastapi** - Web framework
-- **uvicorn** - ASGI server
-- **langgraph** - Runtime do agente
-- **langchain** - Framework LLM
-- **langfuse** - Observabilidade
-- **supabase** - Banco de dados
-- **pydantic** - Validação
-- **httpx** - HTTP client
-- **jinja2** - Templates
-
-## 🚧 Em Implementação
-
-- [ ] Processamento real de áudio (Whisper)
-- [ ] Processamento real de imagem (GPT-4 Vision)
-- [ ] Integração completa com Cal.com
-- [ ] Follow-up agendado (cron/scheduler)
-- [ ] Envio de materiais/checklist
-- [ ] Tests unitários e e2e
-
-## 📄 License
-
-MIT
+---
+📝 **License**: MIT
