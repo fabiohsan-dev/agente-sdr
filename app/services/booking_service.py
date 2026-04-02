@@ -5,7 +5,7 @@ from datetime import datetime
 from uuid import UUID
 
 from app.domain.booking import Booking
-from app.integrations.calcom.client import CalcomClient, get_calcom_client
+from app.integrations.calcom.client import get_calcom_client
 from app.repositories.bookings_repository import BookingsRepository
 from app.repositories.leads_repository import LeadsRepository
 
@@ -163,7 +163,9 @@ class BookingService:
             return False
 
         # Cancelar no Cal.com se existir
-        calcom_uid = getattr(booking, 'calcom_booking_uid', None) or str(booking.calcom_booking_id or '')
+        calcom_uid = getattr(booking, "calcom_booking_uid", None) or str(
+            booking.calcom_booking_id or ""
+        )
         if calcom_uid and self.calcom_client.is_available():
             try:
                 await self.calcom_client.cancel_booking(
@@ -205,7 +207,9 @@ class BookingService:
 
         # Remarcar no Cal.com se existir
         new_calcom_booking = None
-        calcom_uid = getattr(booking, 'calcom_booking_uid', None) or str(booking.calcom_booking_id or '')
+        calcom_uid = getattr(booking, "calcom_booking_uid", None) or str(
+            booking.calcom_booking_id or ""
+        )
         if calcom_uid and self.calcom_client.is_available():
             try:
                 new_calcom_booking = await self.calcom_client.reschedule_booking(
@@ -227,8 +231,12 @@ class BookingService:
             description=booking.description,
             calcom_booking_id=new_calcom_booking.id if new_calcom_booking else None,
             calcom_booking_uid=new_calcom_booking.uid if new_calcom_booking else None,
-            meeting_url=new_calcom_booking.effective_meeting_url if new_calcom_booking else booking.meeting_url,
-            calcom_data=new_calcom_booking.model_dump() if new_calcom_booking else booking.calcom_data,
+            meeting_url=new_calcom_booking.effective_meeting_url
+            if new_calcom_booking
+            else booking.meeting_url,
+            calcom_data=new_calcom_booking.model_dump()
+            if new_calcom_booking
+            else booking.calcom_data,
             rescheduled_from_id=booking_id,
         )
 

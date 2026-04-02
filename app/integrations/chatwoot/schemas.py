@@ -96,18 +96,13 @@ class ChatwootWebhookPayload(BaseModel):
     def is_incoming_message(self) -> bool:
         """Retorna True se é uma mensagem recebida do contato (não do agente)."""
         return (
-            self.event == "message_created"
-            and self.message_type == "incoming"
-            and not self.private
+            self.event == "message_created" and self.message_type == "incoming" and not self.private
         )
 
     @property
     def is_outgoing_message(self) -> bool:
         """Retorna True se é uma mensagem enviada pelo agente/humano."""
-        return (
-            self.event == "message_created"
-            and self.message_type == "outgoing"
-        )
+        return self.event == "message_created" and self.message_type == "outgoing"
 
     @property
     def has_media(self) -> bool:

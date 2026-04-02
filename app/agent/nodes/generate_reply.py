@@ -15,9 +15,9 @@ from pathlib import Path
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
 
+from app.agent.models.structured_outputs import AgentStructuredOutput
 from app.config.settings import get_settings
 from app.state.lead_states import AgentState
-from app.agent.models.structured_outputs import AgentStructuredOutput
 
 logger = logging.getLogger(__name__)
 
@@ -71,9 +71,7 @@ async def generate_reply(state: AgentState) -> AgentState:
 
     # Carregar APENAS as etapas relevantes para o estado atual
     stages_prompt = _load_prompt(prompts_dir / "stages.md")
-    selective_stages = _extract_relevant_stages(
-        stages_prompt, state.current_state.value
-    )
+    selective_stages = _extract_relevant_stages(stages_prompt, state.current_state.value)
 
     # ============================================
     # CONSTRUIR PROMPT COMPLETO
@@ -102,11 +100,10 @@ async def generate_reply(state: AgentState) -> AgentState:
         # LANGFUSE TRACING (se configurado)
         # ============================================
         from app.integrations.langfuse.tracing import get_langfuse
-        
+
         langfuse = get_langfuse()
         langfuse_trace = None
-        langfuse_generation = None
-        
+
         if langfuse.is_available():
             logger.info("🔵 Langfuse: tracing ativado")
             langfuse_trace = langfuse.trace(
@@ -115,9 +112,11 @@ async def generate_reply(state: AgentState) -> AgentState:
                 session_id=state.session_id,
                 metadata={
                     "current_state": state.current_state.value,
-                    "incoming_message": state.incoming_message[:100] if state.incoming_message else None,
+                    "incoming_message": state.incoming_message[:100]
+                    if state.incoming_message
+                    else None,
                     "keyword_intent": state.metadata.get("intent", "UNKNOWN"),
-                }
+                },
             )
 
         # ✅ Passar API Key explicitamente para evitar erro
@@ -129,14 +128,18 @@ async def generate_reply(state: AgentState) -> AgentState:
         ).with_structured_output(AgentStructuredOutput)
 
         logger.debug("Invocando LLM...")
-        response: AgentStructuredOutput = await llm.ainvoke([
-            SystemMessage(content="Você é um SDR experiente. Siga as regras e use o contexto fornecido."),
-            HumanMessage(content=full_prompt),
-        ])
+        response: AgentStructuredOutput = await llm.ainvoke(
+            [
+                SystemMessage(
+                    content="Você é um SDR experiente. Siga as regras e use o contexto fornecido."
+                ),
+                HumanMessage(content=full_prompt),
+            ]
+        )
 
         # Capturar geração no Langfuse
         if langfuse.is_available() and langfuse_trace:
-            langfuse_generation = langfuse.generation(
+            langfuse.generation(
                 parent=langfuse_trace,
                 name="llm_call",
                 model=settings.openai_model,
@@ -148,7 +151,7 @@ async def generate_reply(state: AgentState) -> AgentState:
                     "keyword_intent": state.metadata.get("intent", "UNKNOWN"),
                     "llm_intent": response.intent,
                     "actions": response.actions,
-                }
+                },
             )
             logger.info("✅ Langfuse: geração capturada")
 
@@ -164,10 +167,12 @@ async def generate_reply(state: AgentState) -> AgentState:
         llm_intent = response.intent
 
         # Intenções bloqueantes detectadas por keyword têm prioridade
-        _BLOCKING_INTENTS = {"NO_MONEY", "NOT_INTERESTED", "WANTS_PAUSE"}
-        if keyword_intent in _BLOCKING_INTENTS:
+        blocking_intents = {"NO_MONEY", "NOT_INTERESTED", "WANTS_PAUSE"}
+        if keyword_intent in blocking_intents:
             final_intent = keyword_intent
-            logger.info(f"🔒 Intent final: {keyword_intent} (keyword bloqueante, LLM disse {llm_intent})")
+            logger.info(
+                f"🔒 Intent final: {keyword_intent} (keyword bloqueante, LLM disse {llm_intent})"
+            )
         elif keyword_intent == "UNKNOWN" or keyword_intent == "RESPONDING_QUESTION":
             # Keyword não soube classificar bem — usar LLM
             final_intent = llm_intent
@@ -175,7 +180,9 @@ async def generate_reply(state: AgentState) -> AgentState:
         else:
             # Ambos classificaram — preferir LLM pois é mais preciso
             final_intent = llm_intent
-            logger.info(f"🤖 Intent final: {llm_intent} (LLM preferido, keyword era {keyword_intent})")
+            logger.info(
+                f"🤖 Intent final: {llm_intent} (LLM preferido, keyword era {keyword_intent})"
+            )
 
         state.metadata["intent"] = final_intent
         state.metadata["intent_keyword"] = keyword_intent
@@ -203,12 +210,18 @@ async def generate_reply(state: AgentState) -> AgentState:
         llm_next_state = response.next_state
         decided_next_state = state.next_state  # calculado pelo decide_stage
 
-        # Importar LeadState para comparação de ordem
         from app.domain.enums import LeadState
-        _STATE_ORDER = [
-            "NEW", "QUALIFYING", "WAITING_PRIORITY_CONFIRMATION",
-            "WAITING_FIT_CONFIRMATION", "WAITING_TIME", "WAITING_EMAIL",
-            "BOOKING_IN_PROGRESS", "SCHEDULED", "POST_BOOKING_PENDING_MATERIALS",
+
+        state_order = [
+            "NEW",
+            "QUALIFYING",
+            "WAITING_PRIORITY_CONFIRMATION",
+            "WAITING_FIT_CONFIRMATION",
+            "WAITING_TIME",
+            "WAITING_EMAIL",
+            "BOOKING_IN_PROGRESS",
+            "SCHEDULED",
+            "POST_BOOKING_PENDING_MATERIALS",
             "POST_BOOKING_PENDING_CHECKLIST",
         ]
         _terminal = {"NO_MONEY", "CLOSED", "PAUSED_BY_HUMAN"}
@@ -217,8 +230,12 @@ async def generate_reply(state: AgentState) -> AgentState:
         if llm_next_state in _terminal:
             state.next_state = LeadState(llm_next_state)
         elif decided_next_state and llm_next_state:
-            llm_order = _STATE_ORDER.index(llm_next_state) if llm_next_state in _STATE_ORDER else -1
-            decided_order = _STATE_ORDER.index(decided_next_state.value) if decided_next_state.value in _STATE_ORDER else -1
+            llm_order = state_order.index(llm_next_state) if llm_next_state in state_order else -1
+            decided_order = (
+                state_order.index(decided_next_state.value)
+                if decided_next_state.value in state_order
+                else -1
+            )
             # Usar o mais avançado entre o que o LLM decidiu e o que o decide_stage calculou
             if llm_order >= decided_order:
                 state.next_state = LeadState(llm_next_state)
@@ -246,7 +263,6 @@ async def generate_reply(state: AgentState) -> AgentState:
         from app.services.media_tag_service import (
             extract_media_tags,
             format_for_display,
-            has_media_tag,
         )
 
         # Extrair mídias mencionadas
@@ -268,12 +284,15 @@ async def generate_reply(state: AgentState) -> AgentState:
     except Exception as e:
         logger.error(f"❌ ERRO CRÍTICO na geração de resposta: {type(e).__name__}: {e}")
         logger.error(f"Estado atual: {state.current_state}")
-        logger.error(f"Mensagem: {state.incoming_message[:100] if state.incoming_message else 'None'}")
-        
+        logger.error(
+            f"Mensagem: {state.incoming_message[:100] if state.incoming_message else 'None'}"
+        )
+
         import traceback
+
         error_trace = traceback.format_exc()
         logger.error(f"Traceback:\n{error_trace}")
-        
+
         state.error = f"{type(e).__name__}: {e}"
         state.reply_text = _get_fallback_response(state)
         state.next_state = state.current_state
@@ -298,17 +317,17 @@ def _load_prompt(path: Path) -> str:
 def _extract_relevant_stages(full_stages: str, current_state: str) -> str:
     """
     Extrai APENAS as seções de etapa relevantes para o estado atual.
-    
+
     Economia estimada: ~3.900 tokens por chamada (envia 1-2 etapas em vez de 7).
     """
     stage_keys = _STATE_TO_STAGES.get(current_state, [])
-    
+
     if not stage_keys:
         # Estado terminal — enviar apenas regras globais do stages.md
         return _extract_section(full_stages, "VISÃO GERAL") or ""
 
     # Mapeamento de chave → regex para encontrar a seção no markdown
-    _SECTION_MAP = {
+    section_map = {
         "etapa_1": r"## ETAPA 1 —.*?(?=\n## ETAPA 2|---\s*\n## ETAPA 2|\Z)",
         "etapa_2": r"## ETAPA 2 —.*?(?=\n## ETAPA 3|---\s*\n## ETAPA 3|\Z)",
         "etapa_3": r"## ETAPA 3 —.*?(?=\n## ETAPA 4|---\s*\n## ETAPA 4|\Z)",
@@ -320,7 +339,7 @@ def _extract_relevant_stages(full_stages: str, current_state: str) -> str:
     }
 
     sections = []
-    
+
     # Sempre incluir visão geral (compacta)
     visao = _extract_section(full_stages, "VISÃO GERAL")
     if visao:
@@ -328,7 +347,7 @@ def _extract_relevant_stages(full_stages: str, current_state: str) -> str:
 
     # Extrair seções relevantes
     for key in stage_keys:
-        pattern = _SECTION_MAP.get(key)
+        pattern = section_map.get(key)
         if pattern:
             match = re.search(pattern, full_stages, re.DOTALL)
             if match:
@@ -340,12 +359,12 @@ def _extract_relevant_stages(full_stages: str, current_state: str) -> str:
         sections.append(resumo.group(0).strip())
 
     result = "\n\n---\n\n".join(sections)
-    
+
     logger.debug(
         f"Prompt seletivo: {len(result)} chars para estado {current_state} "
         f"(original: {len(full_stages)} chars, economia: {len(full_stages) - len(result)} chars)"
     )
-    
+
     return result
 
 
@@ -384,18 +403,31 @@ def _build_full_prompt(
     has_question = (
         "?" in user_message
         or keyword_intent == "ASKING_SPECIFIC_QUESTION"
-        or any(kw in user_message.lower() for kw in [
-            "como funciona", "qual o valor", "quanto custa",
-            "vocês atendem", "atendem esse", "qual o desafio",
-            "como é feito", "o que é", "funciona como",
-            "pode me explicar", "quero entender", "como vocês",
-            "qual a diferença", "o que vocês fazem", "preço",
-        ])
+        or any(
+            kw in user_message.lower()
+            for kw in [
+                "como funciona",
+                "qual o valor",
+                "quanto custa",
+                "vocês atendem",
+                "atendem esse",
+                "qual o desafio",
+                "como é feito",
+                "o que é",
+                "funciona como",
+                "pode me explicar",
+                "quero entender",
+                "como vocês",
+                "qual a diferença",
+                "o que vocês fazem",
+                "preço",
+            ]
+        )
     )
 
     if has_question:
         logger.info("🎯 AAB GUARDRAIL: Pergunta detectada na mensagem do lead")
-        aab_guardrail = f"""
+        aab_guardrail = """
 ---
 
 ## ⚠️ ALERTA: PERGUNTA DETECTADA — PADRÃO AAB OBRIGATÓRIO

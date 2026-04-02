@@ -12,8 +12,6 @@ Ou:
 """
 
 import secrets
-import hashlib
-import os
 from pathlib import Path
 
 
@@ -53,20 +51,20 @@ def check_env_file() -> Path:
 def update_env_file(secrets: dict) -> None:
     """Atualiza o arquivo .env com os segredos gerados."""
     env_file = check_env_file()
-    
+
     if not env_file.exists():
         print(f"Arquivo .env não encontrado em {env_file}")
         print("Copie .env.example para .env primeiro:")
         print("  copy .env.example .env")
         return
-    
+
     # Ler conteúdo atual
     content = env_file.read_text(encoding="utf-8")
-    
+
     # Atualizar segredos
     lines = content.splitlines()
     updated_lines = []
-    
+
     for line in lines:
         updated = False
         for key, value in secrets.items():
@@ -77,17 +75,17 @@ def update_env_file(secrets: dict) -> None:
                     updated_lines.append(line)
                     updated = True
                     break
-        
+
         if not updated:
             updated_lines.append(line)
-    
+
     # Adicionar segredos que não existem no arquivo
     existing_keys = [line.split("=")[0] for line in lines if "=" in line]
-    
+
     for key, value in secrets.items():
         if key not in existing_keys:
             updated_lines.append(f"{key}={value}")
-    
+
     # Escrever arquivo atualizado
     env_file.write_text("\n".join(updated_lines), encoding="utf-8")
     print(f"Segredos atualizados em {env_file}")
@@ -99,10 +97,10 @@ def print_secrets(secrets: dict) -> None:
     print("SEGREDOS GERADOS")
     print("=" * 60)
     print("\nAdicione estas linhas ao seu arquivo .env:\n")
-    
+
     for key, value in secrets.items():
         print(f"{key}={value}")
-    
+
     print("\n" + "=" * 60)
     print("IMPORTANTE: Mantenha estes segredos em segurança!")
     print("NÃO os compartilhe ou os coloque no repositório Git.")
@@ -114,13 +112,13 @@ def main():
     print("=" * 60)
     print("GERADOR DE SEGREDOS - SDR AGENT")
     print("=" * 60)
-    
+
     # Gerar segredos
     secrets = generate_all_secrets()
-    
+
     # Imprimir para referência
     print_secrets(secrets)
-    
+
     # Modo silencioso se executado via script batch com redirecionamento
     import sys
     if not sys.stdin.isatty():
@@ -129,11 +127,11 @@ def main():
         update_env_file(secrets)
         print("\n✅ Segredos atualizados no arquivo .env")
         return
-    
+
     # Perguntar se deve atualizar .env
     try:
         response = input("Deseja atualizar o arquivo .env automaticamente? (s/n): ")
-        
+
         if response.lower() in ["s", "sim", "y", "yes"]:
             update_env_file(secrets)
             print("\n✅ Segredos atualizados no arquivo .env")
@@ -142,7 +140,7 @@ def main():
     except (EOFError, KeyboardInterrupt):
         # Se não houver input disponível (execução automática)
         print("\n⚠️ Modo não-interativo: copie manualmente os segredos para .env")
-    
+
     print("\nPróximos passos:")
     print("1. Configure as chaves externas (OpenAI, Supabase, etc.)")
     print("2. Execute: infra\\scripts\\run_api.bat")

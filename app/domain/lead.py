@@ -48,10 +48,7 @@ class Lead(BaseModel):
 
     def is_paused_by_human(self) -> bool:
         """Verifica se lead está pausado por humano."""
-        return (
-            self.current_state == LeadState.PAUSED_BY_HUMAN
-            or self.owner_mode == OwnerMode.HUMAN
-        )
+        return self.current_state == LeadState.PAUSED_BY_HUMAN or self.owner_mode == OwnerMode.HUMAN
 
     def is_no_money(self) -> bool:
         """Verifica se lead está em estado NO_MONEY."""

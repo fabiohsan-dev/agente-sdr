@@ -15,9 +15,9 @@ from fastapi.middleware.cors import CORSMiddleware
 env_path = Path(__file__).parent.parent.parent / ".env"
 load_dotenv(dotenv_path=env_path, encoding="utf-8")
 
-from app.config.logging import setup_logging
-from app.config.settings import get_settings
-from apps.api.routes import chat, health, media, metrics, webhook
+from app.config.logging import setup_logging  # noqa: E402
+from app.config.settings import get_settings  # noqa: E402
+from apps.api.routes import chat, health, media, metrics, webhook  # noqa: E402
 
 # Setup logging
 setup_logging()

@@ -11,11 +11,7 @@ settings = get_settings()
 def setup_logging() -> None:
     """Configura o logging da aplicação."""
     log_format = logging.Formatter(
-        fmt=(
-            "%(asctime)s | %(levelname)-8s | "
-            "%(name)s | %(filename)s:%(lineno)d | "
-            "%(message)s"
-        ),
+        fmt=("%(asctime)s | %(levelname)-8s | %(name)s | %(filename)s:%(lineno)d | %(message)s"),
         datefmt="%Y-%m-%d %H:%M:%S",
     )
 

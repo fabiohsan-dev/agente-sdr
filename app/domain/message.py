@@ -6,7 +6,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, Field
 
-from app.domain.enums import MessageType, MessageDirection
+from app.domain.enums import MessageDirection, MessageType
 
 
 class Message(BaseModel):

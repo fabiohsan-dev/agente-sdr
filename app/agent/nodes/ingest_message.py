@@ -40,7 +40,9 @@ async def ingest_message(state: AgentState) -> AgentState:
     if state.media_transcription and state.incoming_message_type == "audio":
         # Para áudio, usar transcrição como conteúdo principal
         if state.incoming_message:
-            state.incoming_message = f"{state.incoming_message}\n\n[Transcrição do áudio: {state.media_transcription}]"
+            state.incoming_message = (
+                f"{state.incoming_message}\n\n[Transcrição do áudio: {state.media_transcription}]"
+            )
         else:
             state.incoming_message = state.media_transcription
         logger.debug("Usando transcrição de áudio como conteúdo")
@@ -48,7 +50,9 @@ async def ingest_message(state: AgentState) -> AgentState:
     if state.media_analysis and state.incoming_message_type == "image":
         # Para imagem, adicionar análise como contexto
         if state.incoming_message:
-            state.incoming_message = f"{state.incoming_message}\n\n[Análise da imagem: {state.media_analysis}]"
+            state.incoming_message = (
+                f"{state.incoming_message}\n\n[Análise da imagem: {state.media_analysis}]"
+            )
         else:
             state.incoming_message = f"[Imagem enviada: {state.media_analysis}]"
         logger.debug("Usando análise de imagem como contexto")

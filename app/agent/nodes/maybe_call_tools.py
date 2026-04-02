@@ -36,10 +36,7 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
 
             # Extrair dados do lead do metadata (acumulados nas etapas anteriores)
             lead_name = state.metadata.get("lead_name") or "Lead"
-            lead_email = (
-                state.metadata.get("lead_email")
-                or state.metadata.get("email_provided")
-            )
+            lead_email = state.metadata.get("lead_email") or state.metadata.get("email_provided")
             scheduled_time_str = state.metadata.get("scheduled_time")
 
             # Determinar o horário do booking
@@ -77,41 +74,46 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
                     state.metadata["meeting_url"] = booking.meeting_url
                     state.metadata["booking_start"] = start_time.isoformat()
                     logger.info(
-                        f"✅ Booking criado: {booking.id} | "
-                        f"Cal.com ID: {booking.calcom_booking_id}"
+                        f"✅ Booking criado: {booking.id} | Cal.com ID: {booking.calcom_booking_id}"
                     )
-                    tools_called.append({
-                        "tool": "booking_tool",
-                        "action": "create_booking",
-                        "status": "success",
-                        "booking_id": str(booking.id),
-                    })
+                    tools_called.append(
+                        {
+                            "tool": "booking_tool",
+                            "action": "create_booking",
+                            "status": "success",
+                            "booking_id": str(booking.id),
+                        }
+                    )
                 else:
                     logger.warning("⚠️ Booking não criado (sem retorno do serviço)")
-                    tools_called.append({
+                    tools_called.append(
+                        {
+                            "tool": "booking_tool",
+                            "action": "create_booking",
+                            "status": "failed",
+                        }
+                    )
+            else:
+                logger.warning(f"⚠️ Booking não criado: email={lead_email}, lead_id={state.lead_id}")
+                tools_called.append(
+                    {
                         "tool": "booking_tool",
                         "action": "create_booking",
-                        "status": "failed",
-                    })
-            else:
-                logger.warning(
-                    f"⚠️ Booking não criado: email={lead_email}, lead_id={state.lead_id}"
+                        "status": "skipped_missing_data",
+                        "reason": f"email={lead_email}",
+                    }
                 )
-                tools_called.append({
-                    "tool": "booking_tool",
-                    "action": "create_booking",
-                    "status": "skipped_missing_data",
-                    "reason": f"email={lead_email}",
-                })
 
         except Exception as e:
             logger.error(f"❌ Erro ao criar booking: {type(e).__name__}: {e}")
-            tools_called.append({
-                "tool": "booking_tool",
-                "action": "create_booking",
-                "status": "error",
-                "error": str(e),
-            })
+            tools_called.append(
+                {
+                    "tool": "booking_tool",
+                    "action": "create_booking",
+                    "status": "error",
+                    "error": str(e),
+                }
+            )
 
     # ============================================
     # FOLLOW-UP TOOL — Cadência de 4 passos
@@ -135,7 +137,11 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
                     logger.info(f"📩 Follow step atual (do banco): {current_step}/4")
 
             # Nome do lead para personalização das mensagens
-            first_name = state.metadata.get("lead_name", "").split()[0] if state.metadata.get("lead_name") else ""
+            first_name = (
+                state.metadata.get("lead_name", "").split()[0]
+                if state.metadata.get("lead_name")
+                else ""
+            )
 
             if state.lead_id:
                 follow_job = await follow_service.schedule_follow_sequence(
@@ -152,35 +158,43 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
                     state.metadata["follow_step"] = next_step
                     state.metadata["follow_job_id"] = follow_job.get("id")
                     logger.info(f"✅ Follow {next_step}/4 agendado (step salvo no banco)")
-                    tools_called.append({
-                        "tool": "follow_up_tool",
-                        "action": "schedule_follow",
-                        "step": next_step,
-                        "status": "success",
-                    })
+                    tools_called.append(
+                        {
+                            "tool": "follow_up_tool",
+                            "action": "schedule_follow",
+                            "step": next_step,
+                            "status": "success",
+                        }
+                    )
                 else:
                     logger.info("📩 Cadência de follow finalizada (4/4 já enviados)")
-                    tools_called.append({
-                        "tool": "follow_up_tool",
-                        "action": "schedule_follow",
-                        "status": "cadence_complete",
-                    })
+                    tools_called.append(
+                        {
+                            "tool": "follow_up_tool",
+                            "action": "schedule_follow",
+                            "status": "cadence_complete",
+                        }
+                    )
             else:
                 logger.warning("⚠️ Follow-up não agendado: lead_id ausente")
-                tools_called.append({
-                    "tool": "follow_up_tool",
-                    "action": "schedule_follow",
-                    "status": "skipped_no_lead_id",
-                })
+                tools_called.append(
+                    {
+                        "tool": "follow_up_tool",
+                        "action": "schedule_follow",
+                        "status": "skipped_no_lead_id",
+                    }
+                )
 
         except Exception as e:
             logger.error(f"❌ Erro ao agendar follow-up: {type(e).__name__}: {e}")
-            tools_called.append({
-                "tool": "follow_up_tool",
-                "action": "schedule_follow",
-                "status": "error",
-                "error": str(e),
-            })
+            tools_called.append(
+                {
+                    "tool": "follow_up_tool",
+                    "action": "schedule_follow",
+                    "status": "error",
+                    "error": str(e),
+                }
+            )
 
     # ============================================
     # MATERIALS TOOL
@@ -190,11 +204,13 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
         logger.info("Materials tool será chamada")
         # TODO: Implementar chamada real
         # result = await outbound_service.send_materials(...)
-        tools_called.append({
-            "tool": "materials_tool",
-            "action": "send_materials",
-            "status": "pending_implementation",
-        })
+        tools_called.append(
+            {
+                "tool": "materials_tool",
+                "action": "send_materials",
+                "status": "pending_implementation",
+            }
+        )
 
     # ============================================
     # CHECKLIST TOOL
@@ -204,11 +220,13 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
         logger.info("Checklist tool será chamada")
         # TODO: Implementar chamada real
         # result = await outbound_service.send_checklist(...)
-        tools_called.append({
-            "tool": "checklist_tool",
-            "action": "send_checklist",
-            "status": "pending_implementation",
-        })
+        tools_called.append(
+            {
+                "tool": "checklist_tool",
+                "action": "send_checklist",
+                "status": "pending_implementation",
+            }
+        )
 
     # ============================================
     # PAUSE AI TOOL — TOOL 5 (Pausar IA)
@@ -237,6 +255,7 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
 
             # 3. Cancelar follow-ups pendentes (evitar bot enviar msgs)
             from app.services.follow_up_service import get_follow_up_service
+
             follow_service = get_follow_up_service()
             if state.lead_id:
                 cancelled = await follow_service.cancel_pending_follows(
@@ -250,21 +269,25 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
             state.should_schedule_follow = False
             state.should_call_booking_tool = False
 
-            tools_called.append({
-                "tool": "pause_ai_tool",
-                "action": "pause_ai",
-                "status": "success",
-                "reason": state.metadata.get("pause_reason", "LLM decided to pause"),
-            })
+            tools_called.append(
+                {
+                    "tool": "pause_ai_tool",
+                    "action": "pause_ai",
+                    "status": "success",
+                    "reason": state.metadata.get("pause_reason", "LLM decided to pause"),
+                }
+            )
 
         except Exception as e:
             logger.error(f"❌ Erro ao pausar IA: {type(e).__name__}: {e}")
-            tools_called.append({
-                "tool": "pause_ai_tool",
-                "action": "pause_ai",
-                "status": "error",
-                "error": str(e),
-            })
+            tools_called.append(
+                {
+                    "tool": "pause_ai_tool",
+                    "action": "pause_ai",
+                    "status": "error",
+                    "error": str(e),
+                }
+            )
 
     # ============================================
     # CANCEL FOLLOW (ação — quando lead responde)
@@ -287,27 +310,33 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
                 leads_repo = LeadsRepository()
                 await leads_repo.reset_follow_step(state.lead_id)
                 state.metadata["follow_step"] = 0
-                tools_called.append({
-                    "tool": "follow_up_tool",
-                    "action": "cancel_follow",
-                    "cancelled": cancelled,
-                    "status": "success",
-                })
+                tools_called.append(
+                    {
+                        "tool": "follow_up_tool",
+                        "action": "cancel_follow",
+                        "cancelled": cancelled,
+                        "status": "success",
+                    }
+                )
             else:
-                tools_called.append({
-                    "tool": "follow_up_tool",
-                    "action": "cancel_follow",
-                    "status": "skipped_no_lead_id",
-                })
+                tools_called.append(
+                    {
+                        "tool": "follow_up_tool",
+                        "action": "cancel_follow",
+                        "status": "skipped_no_lead_id",
+                    }
+                )
 
         except Exception as e:
             logger.error(f"❌ Erro ao cancelar follow: {e}")
-            tools_called.append({
-                "tool": "follow_up_tool",
-                "action": "cancel_follow",
-                "status": "error",
-                "error": str(e),
-            })
+            tools_called.append(
+                {
+                    "tool": "follow_up_tool",
+                    "action": "cancel_follow",
+                    "status": "error",
+                    "error": str(e),
+                }
+            )
 
     # ============================================
     # MARK NO_MONEY (ação)
@@ -316,11 +345,13 @@ async def maybe_call_tools(state: AgentState) -> AgentState:
     if "mark_no_money" in state.actions:
         logger.info("Marcando lead como NO_MONEY")
         # Isso será feito no node persist_decision
-        tools_called.append({
-            "tool": "lead_repository",
-            "action": "mark_no_money",
-            "status": "will_persist",
-        })
+        tools_called.append(
+            {
+                "tool": "lead_repository",
+                "action": "mark_no_money",
+                "status": "will_persist",
+            }
+        )
 
     state.tools_called = tools_called
     state.metadata["tools_executed"] = len(tools_called) > 0

@@ -5,7 +5,6 @@ from pathlib import Path
 
 import jinja2
 from dotenv import load_dotenv
-
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -18,7 +17,7 @@ from fastapi.templating import Jinja2Templates
 env_path = Path(__file__).parent.parent.parent / ".env"
 load_dotenv(dotenv_path=env_path, encoding="utf-8")
 
-from app.config.logging import setup_logging
+from app.config.logging import setup_logging  # noqa: E402
 
 # Setup logging
 setup_logging()

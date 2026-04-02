@@ -1,13 +1,10 @@
 """Serviço de download de mídia - baixa arquivos da CDN."""
 
 import logging
-from io import BytesIO
 from pathlib import Path
-from uuid import UUID
 
 import httpx
 
-from app.domain.enums import MediaType
 from app.repositories.media_assets_repository import MediaAssetsRepository
 
 logger = logging.getLogger(__name__)
@@ -108,6 +105,7 @@ class MediaDownloadService:
         # Gerar nome do arquivo
         if not filename:
             import uuid
+
             filename = f"{uuid.uuid4()}.bin"
 
         file_path = temp_path / filename

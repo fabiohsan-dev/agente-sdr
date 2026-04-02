@@ -1,6 +1,5 @@
 """Repositório de Agent Snapshots."""
 
-from datetime import datetime
 from uuid import UUID
 
 from supabase import Client
@@ -58,16 +57,10 @@ class AgentSnapshotsRepository:
             "metadata": metadata or {},
         }
 
-        result = (
-            self.client.table("agent_snapshots")
-            .insert(data)
-            .execute()
-        )
+        result = self.client.table("agent_snapshots").insert(data).execute()
         return result.data[0]
 
-    async def get_by_lead(
-        self, lead_id: UUID, limit: int = 50
-    ) -> list[dict]:
+    async def get_by_lead(self, lead_id: UUID, limit: int = 50) -> list[dict]:
         """Busca snapshots de um lead."""
         result = (
             self.client.table("agent_snapshots")
@@ -79,9 +72,7 @@ class AgentSnapshotsRepository:
         )
         return result.data or []
 
-    async def get_by_conversation(
-        self, conversation_id: UUID, limit: int = 50
-    ) -> list[dict]:
+    async def get_by_conversation(self, conversation_id: UUID, limit: int = 50) -> list[dict]:
         """Busca snapshots de uma conversation."""
         result = (
             self.client.table("agent_snapshots")
@@ -93,9 +84,7 @@ class AgentSnapshotsRepository:
         )
         return result.data or []
 
-    async def get_with_errors(
-        self, limit: int = 100
-    ) -> list[dict]:
+    async def get_with_errors(self, limit: int = 100) -> list[dict]:
         """Busca snapshots com erros."""
         result = (
             self.client.table("agent_snapshots")

@@ -77,12 +77,15 @@ class FollowUpWorker:
                     continue
 
                 # Estados que impedem envio de follow
-                _BLOCKED_STATES = {
-                    "PAUSED_BY_HUMAN", "NO_MONEY", "CLOSED",
-                    "SCHEDULED", "POST_BOOKING_PENDING_MATERIALS",
+                blocked_states = {
+                    "PAUSED_BY_HUMAN",
+                    "NO_MONEY",
+                    "CLOSED",
+                    "SCHEDULED",
+                    "POST_BOOKING_PENDING_MATERIALS",
                     "POST_BOOKING_PENDING_CHECKLIST",
                 }
-                if lead.current_state.value in _BLOCKED_STATES:
+                if lead.current_state.value in blocked_states:
                     logger.info(
                         f"Lead {lead_id} em estado {lead.current_state.value} — "
                         f"cancelando follow {job_id}"
@@ -129,9 +132,7 @@ class FollowUpWorker:
                 stats["succeeded"] += 1
 
             except Exception as e:
-                logger.error(
-                    f"❌ Erro ao processar follow job {job_id}: {type(e).__name__}: {e}"
-                )
+                logger.error(f"❌ Erro ao processar follow job {job_id}: {type(e).__name__}: {e}")
                 await self.follow_repo.mark_failed(job_id, error=str(e))
                 stats["failed"] += 1
 
@@ -145,9 +146,7 @@ class FollowUpWorker:
 
         return stats
 
-    async def _send_follow_messages(
-        self, lead_id: UUID, messages: list[dict]
-    ) -> None:
+    async def _send_follow_messages(self, lead_id: UUID, messages: list[dict]) -> None:
         """
         Envia as mensagens de follow para o lead.
 

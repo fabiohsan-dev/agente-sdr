@@ -4,11 +4,9 @@ import logging
 
 from fastapi import APIRouter, HTTPException
 
-from app.repositories.media_assets_repository import MediaAssetsRepository
 from app.schemas.chat import MediaRequest, MediaResponse
 from app.services.audio_processing_service import get_audio_processing_service
 from app.services.image_processing_service import get_image_processing_service
-from app.services.media_download_service import get_media_download_service
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +29,7 @@ async def process_media(request: MediaRequest) -> MediaResponse:
     """
     logger.info(f"Processando mídia: {request.media_type} - {request.media_url}")
 
-    media_repo = MediaAssetsRepository()
+    # media_repo = MediaAssetsRepository()
 
     # ============================================
     # CRIAR MEDIA ASSET
@@ -43,13 +41,13 @@ async def process_media(request: MediaRequest) -> MediaResponse:
 
     # Criar registro no banco (sem lead_id por enquanto)
     # Em produção, você associaria com um lead específico
-    asset_data = {
-        "id": media_id,
-        "media_type": request.media_type,
-        "cdn_url": request.media_url,
-        "mime_type": request.mime_type,
-        "original_filename": request.filename,
-    }
+    # asset_data = {
+    #     "id": media_id,
+    #     "media_type": request.media_type,
+    #     "cdn_url": request.media_url,
+    #     "mime_type": request.mime_type,
+    #     "original_filename": request.filename,
+    # }
 
     # ============================================
     # PROCESSAR DE ACORDO COM O TIPO
@@ -65,7 +63,9 @@ async def process_media(request: MediaRequest) -> MediaResponse:
             audio_service = get_audio_processing_service()
             transcription = await audio_service.transcribe_audio_url(request.media_url)
             status = "completed" if transcription else "failed"
-            logger.info(f"Áudio transcrito: {len(transcription) if transcription else 0} caracteres")
+            logger.info(
+                f"Áudio transcrito: {len(transcription) if transcription else 0} caracteres"
+            )
 
         elif request.media_type == "image":
             # Processar imagem
@@ -75,7 +75,9 @@ async def process_media(request: MediaRequest) -> MediaResponse:
             logger.info(f"Imagem analisada: {len(analysis) if analysis else 0} caracteres")
 
         else:
-            raise HTTPException(status_code=400, detail=f"Tipo de mídia não suportado: {request.media_type}")
+            raise HTTPException(
+                status_code=400, detail=f"Tipo de mídia não suportado: {request.media_type}"
+            )
 
     except Exception as e:
         logger.error(f"Erro no processamento de mídia: {e}")

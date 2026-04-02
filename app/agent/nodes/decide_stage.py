@@ -117,14 +117,14 @@ def _handle_waiting_state(state: AgentState, intent: str) -> LeadState:
     # Qualquer resposta que não seja negativa avança o funil.
     # O LLM classifica intenções como READY_TO_BOOK, INTERESTED, CONFIRMING, etc.
     # Não bloquear o funil por um enum exato — se o lead respondeu, avançar.
-    _NEGATIVE_INTENTS = {"NOT_INTERESTED", "NO_MONEY", "UNSUBSCRIBE", "UNKNOWN"}
-    if intent not in _NEGATIVE_INTENTS:
+    negative_intents = {"NOT_INTERESTED", "NO_MONEY", "UNSUBSCRIBE", "UNKNOWN"}
+    if intent not in negative_intents:
         # Avança para o PRÓXIMO estado na sequência do funil
-        _NEXT_STATE_MAP = {
+        next_state_map = {
             LeadState.WAITING_PRIORITY_CONFIRMATION: LeadState.WAITING_FIT_CONFIRMATION,
             LeadState.WAITING_FIT_CONFIRMATION: LeadState.WAITING_TIME,
         }
-        return _NEXT_STATE_MAP.get(state.current_state, state.current_state)
+        return next_state_map.get(state.current_state, state.current_state)
     return state.current_state  # Manter aguardando
 
 
@@ -149,7 +149,8 @@ def _handle_waiting_email(state: AgentState, intent: str) -> LeadState:
         if "@" in msg:
             # Extrair email via regex (mais robusto que split)
             import re
-            email_match = re.search(r'[\w.+-]+@[\w-]+\.[\w.-]+', msg)
+
+            email_match = re.search(r"[\w.+-]+@[\w-]+\.[\w.-]+", msg)
             if email_match:
                 state.metadata["lead_email"] = email_match.group(0)
             else:
@@ -176,8 +177,8 @@ def _handle_post_booking_materials(state: AgentState, intent: str) -> LeadState:
     if intent == "NOT_INTERESTED":
         return LeadState.CLOSED
     # Materiais enviados OU lead respondeu positivamente → avançar para checklist.
-    _NEGATIVE_INTENTS = {"NOT_INTERESTED", "NO_MONEY", "UNSUBSCRIBE", "UNKNOWN"}
-    if state.metadata.get("materials_sent") or intent not in _NEGATIVE_INTENTS:
+    negative_intents = {"NOT_INTERESTED", "NO_MONEY", "UNSUBSCRIBE", "UNKNOWN"}
+    if state.metadata.get("materials_sent") or intent not in negative_intents:
         return LeadState.POST_BOOKING_PENDING_CHECKLIST
     return LeadState.POST_BOOKING_PENDING_MATERIALS
 
@@ -189,8 +190,8 @@ def _handle_post_booking_checklist(state: AgentState, intent: str) -> LeadState:
     # Checklist enviado OU lead confirmou recebimento → avançar para SCHEDULED.
     # A flag checklist_sent pode vir do metadata (serviço externo) ou ser dispensada
     # quando o lead responde positivamente (qualquer intenção não-negativa).
-    _NEGATIVE_INTENTS = {"NOT_INTERESTED", "NO_MONEY", "UNSUBSCRIBE", "UNKNOWN"}
-    if state.metadata.get("checklist_sent") or intent not in _NEGATIVE_INTENTS:
+    negative_intents = {"NOT_INTERESTED", "NO_MONEY", "UNSUBSCRIBE", "UNKNOWN"}
+    if state.metadata.get("checklist_sent") or intent not in negative_intents:
         return LeadState.SCHEDULED
     return LeadState.POST_BOOKING_PENDING_CHECKLIST
 

@@ -4,25 +4,10 @@ Compatível com parser do n8n/Chatwoot.
 """
 
 import logging
-from app.services.message_parser import parse_message, parse_for_chatwoot
+
+from app.services.message_parser import MEDIA_URLS, parse_for_chatwoot
 
 logger = logging.getLogger(__name__)
-
-# URLs das mídias padrão (importado do parser)
-from app.services.message_parser import MEDIA_URLS
-
-
-def process_media_tags(text: str) -> dict:
-    """
-    Processa tags de mídia no texto e retorna estrutura para frontend.
-
-    Args:
-        text: Texto contendo tags como [MEDIA:AUDIO_PADRAO]
-
-    Returns:
-        Dict com texto limpo e lista de mídias
-    """
-    return parse_message(text)
 
 
 def format_for_chatwoot(text: str) -> dict:
@@ -64,12 +49,14 @@ def process_media_tags(text: str) -> dict:
 
             # Adicionar à lista de mídias
             media_type = "audio" if tag_name == "AUDIO_PADRAO" else "image"
-            media_items.append({
-                "type": media_type,
-                "url": url,
-                "name": tag_name,
-                "tag": tag,
-            })
+            media_items.append(
+                {
+                    "type": media_type,
+                    "url": url,
+                    "name": tag_name,
+                    "tag": tag,
+                }
+            )
 
     # Limpar texto (remover \\ extras, espaços duplos)
     result_text = result_text.replace("\\\\", "\n").strip()
@@ -100,12 +87,14 @@ def extract_media_tags(text: str) -> list[dict]:
 
         if tag in text:
             media_type = "audio" if tag_name == "AUDIO_PADRAO" else "image"
-            media_items.append({
-                "tag": tag,
-                "type": media_type,
-                "url": url,
-                "name": tag_name,
-            })
+            media_items.append(
+                {
+                    "tag": tag,
+                    "type": media_type,
+                    "url": url,
+                    "name": tag_name,
+                }
+            )
 
     return media_items
 

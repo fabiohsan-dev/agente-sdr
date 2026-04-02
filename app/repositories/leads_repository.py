@@ -38,33 +38,24 @@ class LeadsRepository:
         if tenant_id:
             data["tenant_id"] = str(tenant_id)
 
-        result = (
-            self.client.table("leads").insert(data).execute()
-        )
+        result = self.client.table("leads").insert(data).execute()
         return self._map_to_lead(result.data[0])
 
     async def get_by_id(self, lead_id: UUID) -> Lead | None:
         """Busca lead por ID."""
-        result = (
-            self.client.table("leads")
-            .select("*")
-            .eq("id", str(lead_id))
-            .execute()
-        )
+        result = self.client.table("leads").select("*").eq("id", str(lead_id)).execute()
 
         if not result.data:
             return None
         return self._map_to_lead(result.data[0])
 
     async def get_by_email(
-        self, email: str, tenant_id: UUID | None = None,
+        self,
+        email: str,
+        tenant_id: UUID | None = None,
     ) -> Lead | None:
         """Busca lead por email (scoped ao tenant se fornecido)."""
-        query = (
-            self.client.table("leads")
-            .select("*")
-            .eq("email", email)
-        )
+        query = self.client.table("leads").select("*").eq("email", email)
         if tenant_id:
             query = query.eq("tenant_id", str(tenant_id))
         result = query.execute()
@@ -75,20 +66,13 @@ class LeadsRepository:
 
     async def get_by_phone(self, phone: str) -> Lead | None:
         """Busca lead por phone."""
-        result = (
-            self.client.table("leads")
-            .select("*")
-            .eq("phone", phone)
-            .execute()
-        )
+        result = self.client.table("leads").select("*").eq("phone", phone).execute()
 
         if not result.data:
             return None
         return self._map_to_lead(result.data[0])
 
-    async def update_state(
-        self, lead_id: UUID, current_state: LeadState
-    ) -> Lead | None:
+    async def update_state(self, lead_id: UUID, current_state: LeadState) -> Lead | None:
         """Atualiza estado do lead."""
         result = (
             self.client.table("leads")
@@ -107,12 +91,7 @@ class LeadsRepository:
         **fields,
     ) -> Lead | None:
         """Atualiza campos do lead."""
-        result = (
-            self.client.table("leads")
-            .update(fields)
-            .eq("id", str(lead_id))
-            .execute()
-        )
+        result = self.client.table("leads").update(fields).eq("id", str(lead_id)).execute()
 
         if not result.data:
             return None

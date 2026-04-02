@@ -29,10 +29,9 @@ async def maybe_process_media(state: AgentState) -> AgentState:
         return state
 
     # Verificar se deve processar
-    should_process = (
-        BusinessRules.should_process_audio(state)
-        or BusinessRules.should_process_image(state)
-    )
+    should_process = BusinessRules.should_process_audio(
+        state
+    ) or BusinessRules.should_process_image(state)
 
     if not should_process:
         state.metadata["media_processing"] = "not_required"

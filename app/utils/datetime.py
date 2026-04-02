@@ -1,6 +1,6 @@
 """Utilitários de datetime."""
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 import pytz
 
@@ -16,7 +16,7 @@ def get_timezone() -> pytz.timezone:
 
 def now_utc() -> datetime:
     """Retorna agora em UTC."""
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 def now_local() -> datetime:
@@ -29,13 +29,13 @@ def to_utc(dt: datetime) -> datetime:
     """Converte datetime para UTC."""
     if dt.tzinfo is None:
         dt = get_timezone().localize(dt)
-    return dt.astimezone(timezone.utc)
+    return dt.astimezone(UTC)
 
 
 def to_local(dt: datetime) -> datetime:
     """Converte datetime para timezone local."""
     if dt.tzinfo is None:
-        dt = timezone.utc.localize(dt)
+        dt = UTC.localize(dt)
     tz = get_timezone()
     return dt.astimezone(tz)
 

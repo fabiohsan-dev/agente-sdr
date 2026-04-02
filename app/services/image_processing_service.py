@@ -94,15 +94,17 @@ class ImageProcessingService:
                 temperature=0.1,
             )
 
-            response = await llm.ainvoke([
-                (
-                    "human",
-                    [
-                        {"type": "text", "text": analysis_prompt},
-                        {"type": "image_url", "image_url": {"url": image_source}},
-                    ],
-                ),
-            ])
+            response = await llm.ainvoke(
+                [
+                    (
+                        "human",
+                        [
+                            {"type": "text", "text": analysis_prompt},
+                            {"type": "image_url", "image_url": {"url": image_source}},
+                        ],
+                    ),
+                ]
+            )
 
             result = response.content
             logger.info(f"Imagem analisada: {len(result)} caracteres")

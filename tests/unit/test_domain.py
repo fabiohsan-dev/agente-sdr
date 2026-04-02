@@ -1,6 +1,5 @@
 """Testes unitários de exemplo."""
 
-import pytest
 
 from app.domain.enums import LeadState, OwnerMode
 from app.domain.lead import Lead
@@ -13,8 +12,8 @@ class TestLeadStates:
 
     def test_lead_initial_state(self):
         """Testa estado inicial do lead."""
-        from uuid import uuid4
         from datetime import datetime
+        from uuid import uuid4
 
         lead = Lead(
             id=uuid4(),
@@ -29,8 +28,8 @@ class TestLeadStates:
 
     def test_lead_is_paused_by_human(self):
         """Testa verificação de pause por humano."""
-        from uuid import uuid4
         from datetime import datetime
+        from uuid import uuid4
 
         lead = Lead(
             id=uuid4(),
@@ -44,8 +43,8 @@ class TestLeadStates:
 
     def test_lead_is_no_money(self):
         """Testa verificação de no_money."""
-        from uuid import uuid4
         from datetime import datetime
+        from uuid import uuid4
 
         lead = Lead(
             id=uuid4(),
@@ -64,7 +63,6 @@ class TestBusinessRules:
     def test_should_agent_respond_normal(self):
         """Testa se agente deve responder em estado normal."""
         from uuid import uuid4
-        from datetime import datetime
 
         state = AgentState(
             lead_id=uuid4(),
@@ -78,7 +76,6 @@ class TestBusinessRules:
     def test_should_agent_respond_paused(self):
         """Testa se agente NÃO deve responder quando pausado."""
         from uuid import uuid4
-        from datetime import datetime
 
         state = AgentState(
             lead_id=uuid4(),
@@ -92,7 +89,6 @@ class TestBusinessRules:
     def test_can_offer_booking_no_money(self):
         """Testa se NÃO pode oferecer booking quando no_money."""
         from uuid import uuid4
-        from datetime import datetime
 
         state = AgentState(
             lead_id=uuid4(),
@@ -106,7 +102,6 @@ class TestBusinessRules:
     def test_can_offer_booking_available(self):
         """Testa se pode oferecer booking quando disponível."""
         from uuid import uuid4
-        from datetime import datetime
 
         state = AgentState(
             lead_id=uuid4(),

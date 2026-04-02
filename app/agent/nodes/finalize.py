@@ -39,9 +39,7 @@ async def finalize(state: AgentState) -> AgentState:
     state.metadata["execution_completed"] = True
     state.metadata["has_reply"] = bool(state.reply_text)
     state.metadata["state_changed"] = (
-        state.state_before != state.next_state
-        if state.state_before and state.next_state
-        else False
+        state.state_before != state.next_state if state.state_before and state.next_state else False
     )
 
     # ============================================
@@ -50,6 +48,7 @@ async def finalize(state: AgentState) -> AgentState:
 
     try:
         from app.integrations.langfuse.tracing import get_langfuse
+
         langfuse = get_langfuse()
         if langfuse.is_available():
             langfuse.flush()

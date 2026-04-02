@@ -18,7 +18,7 @@ async def _query_metrics() -> dict:
     client = get_supabase_client()
     now = datetime.utcnow()
     last_24h = (now - timedelta(hours=24)).isoformat()
-    last_7d = (now - timedelta(days=7)).isoformat()
+    # last_7d = (now - timedelta(days=7)).isoformat()
 
     metrics = {}
 
@@ -29,10 +29,17 @@ async def _query_metrics() -> dict:
 
         # Leads por estado
         for state in [
-            "NEW", "QUALIFYING", "WAITING_PRIORITY_CONFIRMATION",
-            "WAITING_FIT_CONFIRMATION", "WAITING_TIME", "BOOKING_IN_PROGRESS",
-            "SCHEDULED", "POST_BOOKING_PENDING_MATERIALS",
-            "POST_BOOKING_PENDING_CHECKLIST", "NO_MONEY", "CLOSED",
+            "NEW",
+            "QUALIFYING",
+            "WAITING_PRIORITY_CONFIRMATION",
+            "WAITING_FIT_CONFIRMATION",
+            "WAITING_TIME",
+            "BOOKING_IN_PROGRESS",
+            "SCHEDULED",
+            "POST_BOOKING_PENDING_MATERIALS",
+            "POST_BOOKING_PENDING_CHECKLIST",
+            "NO_MONEY",
+            "CLOSED",
         ]:
             result = (
                 client.table("leads")
@@ -44,10 +51,7 @@ async def _query_metrics() -> dict:
 
         # Leads últimas 24h
         recent = (
-            client.table("leads")
-            .select("id", count="exact")
-            .gte("created_at", last_24h)
-            .execute()
+            client.table("leads").select("id", count="exact").gte("created_at", last_24h).execute()
         )
         metrics["leads_last_24h"] = recent.count or 0
 
@@ -70,11 +74,7 @@ async def _query_metrics() -> dict:
         metrics["active_conversations"] = convs.count or 0
 
         # Bookings agendados
-        bookings = (
-            client.table("bookings")
-            .select("id", count="exact")
-            .execute()
-        )
+        bookings = client.table("bookings").select("id", count="exact").execute()
         metrics["total_bookings"] = bookings.count or 0
 
         # Taxa de conversão (leads → scheduled)
