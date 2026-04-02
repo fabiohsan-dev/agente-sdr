@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copiar pyproject primeiro para cache de deps
 COPY pyproject.toml ./
+COPY README.md ./
 
 # Criar estrutura mínima para pip install funcionar
 # (hatchling precisa dos packages referenciados)
