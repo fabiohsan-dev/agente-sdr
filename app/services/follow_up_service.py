@@ -66,7 +66,7 @@ FOLLOW_CADENCE = [
             },
             {
                 "type": "image",
-                "url": "https://sdr-w.agenciaalea.com.br/imagem-de-follow.jpeg",
+                "url": "https://cdn.exemplo.com/imagem-follow.jpeg",
             },
             {
                 "type": "text",

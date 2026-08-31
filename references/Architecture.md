@@ -1,6 +1,6 @@
 # Architecture.md
 
-Este documento é a referência oficial de arquitetura do projeto **agente-w-sdr**. Quando houver conflito entre implementação atual, prompts ou decisões rápidas, **este documento prevalece**.
+Este documento é a referência oficial de arquitetura do projeto **agente-sdr**. Quando houver conflito entre implementação atual, prompts ou decisões rápidas, **este documento prevalece**.
 
 ## 1. Objetivo
 

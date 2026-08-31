@@ -70,8 +70,8 @@ Diferente de chatbots estocásticos e fluxos frágeis, este Agente SDR opera com
 
 ```bash
 # Clonar o repositório
-git clone https://github.com/fabiohsan-dev/agente-w-sdr.git
-cd agente-w-sdr
+git clone https://github.com/fabiohsan-dev/agente-sdr.git
+cd agente-sdr
 
 # Criar ambiente virtual
 python -m venv .venv

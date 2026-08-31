@@ -31,7 +31,7 @@
 - ✅ Gatilhos de entrada (500, 800, 881, etc.)
 - ✅ Cases e exemplos (Sérgio, 60mil/mês)
 - ✅ Valores (2 mil, 60 mil)
-- ✅ Links de materiais (agenciaww.com/cash, Google Drive)
+- ✅ Links de materiais (Case study, Google Drive)
 
 ### Regras de Linguagem
 - ✅ Máx. 3 frases por balão

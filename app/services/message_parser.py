@@ -19,7 +19,7 @@ Saída:
   "media": [
     {
       "type": "audio",
-      "url": "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a"
+      "url": "https://cdn.exemplo.com/audio-padrao.m4a"
     }
   ]
 }
@@ -55,15 +55,14 @@ def get_media_urls() -> dict[str, str]:
 
         settings = get_settings()
         return {
-            "AUDIO_PADRAO": settings.audio_padrao_url
-            or "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a",
+            "AUDIO_PADRAO": settings.audio_padrao_url or "https://cdn.exemplo.com/audio-padrao.m4a",
             "CASE_GENERICO": settings.case_generico_url
-            or "https://sdr-w.agenciaalea.com.br/case-sergio.png",
+            or "https://cdn.exemplo.com/case-estudo.png",
         }
     except Exception:
         return {
-            "AUDIO_PADRAO": "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a",
-            "CASE_GENERICO": "https://sdr-w.agenciaalea.com.br/case-sergio.png",
+            "AUDIO_PADRAO": "https://cdn.exemplo.com/audio-padrao.m4a",
+            "CASE_GENERICO": "https://cdn.exemplo.com/case-estudo.png",
         }
 
 
