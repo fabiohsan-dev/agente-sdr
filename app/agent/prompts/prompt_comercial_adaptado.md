@@ -302,10 +302,10 @@ Novo slot → O sistema criará o evento automaticamente.
 "Acessos:"
 \
 "Do zero aos 60 mil mensais (estudo de caso do Sérgio):"
-agenciaww.com/cash
+{case_study_url}
 \
 "E aqui o link do drive com dezenas e dezenas de cases de sucesso:"
-https://drive.google.com/drive/folders/1hPynOHHWEE26COs6T5V0xT5vIFDwMB_m?usp=drive_link
+{materials_drive_url}
 \
 "Tenho mais um recado para te dar, mas antes — até aqui tá tudo entendido?"
 ```

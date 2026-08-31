@@ -306,9 +306,18 @@ async def generate_reply(state: AgentState) -> AgentState:
 
 
 def _load_prompt(path: Path) -> str:
-    """Carrega prompt de arquivo."""
+    """Carrega prompt de arquivo e interpola variáveis dinâmicas de configuração."""
     try:
-        return path.read_text(encoding="utf-8")
+        content = path.read_text(encoding="utf-8")
+        # Interpolar URLs dinâmicas do ambiente/settings
+        if "{materials_drive_url}" in content:
+            content = content.replace("{materials_drive_url}", settings.materials_drive_url)
+        if "{case_study_url}" in content:
+            content = content.replace("{case_study_url}", settings.case_study_url)
+        if "{audio_padrao_url}" in content:
+            audio_url = settings.audio_padrao_url or "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a"
+            content = content.replace("{audio_padrao_url}", audio_url)
+        return content
     except FileNotFoundError:
         logger.warning(f"Prompt não encontrado: {path}")
         return ""

@@ -48,11 +48,27 @@ class ParsedMessage(TypedDict):
     media: list[MediaItem]
 
 
-# URLs padrão das mídias
-MEDIA_URLS = {
-    "AUDIO_PADRAO": "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a",
-    "CASE_GENERICO": "https://sdr-w.agenciaalea.com.br/case-sergio.png",
-}
+def get_media_urls() -> dict[str, str]:
+    """Retorna dicionário de URLs de mídia dinâmicas a partir das configurações."""
+    try:
+        from app.config.settings import get_settings
+
+        settings = get_settings()
+        return {
+            "AUDIO_PADRAO": settings.audio_padrao_url
+            or "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a",
+            "CASE_GENERICO": settings.case_generico_url
+            or "https://sdr-w.agenciaalea.com.br/case-sergio.png",
+        }
+    except Exception:
+        return {
+            "AUDIO_PADRAO": "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a",
+            "CASE_GENERICO": "https://sdr-w.agenciaalea.com.br/case-sergio.png",
+        }
+
+
+# URLs padrão das mídias (fallback e retrocompatibilidade)
+MEDIA_URLS = get_media_urls()
 
 # Padrão regex para encontrar tags
 MEDIA_TAG_PATTERN = re.compile(r"\[MEDIA:(\w+)\]")

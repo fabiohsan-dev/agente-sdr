@@ -100,6 +100,15 @@ def get_follow_messages(step: int, first_name: str = "") -> list[dict]:
             formatted["content"] = formatted["content"].replace(
                 "{{first_name}}", first_name or "Ei"
             )
+        if formatted.get("type") == "image" and formatted.get("url"):
+            try:
+                from app.config.settings import get_settings
+
+                s = get_settings()
+                if s.follow_up_image_url:
+                    formatted["url"] = s.follow_up_image_url
+            except Exception:
+                pass
         messages.append(formatted)
 
     return messages

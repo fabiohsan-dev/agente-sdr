@@ -72,7 +72,7 @@ Inclusive, Faaaaala {{ lead.name }}, muito bom te ver por aqui!
 **Notas:**
 - Usar nome do lead
 - Tom entusiástico
-- Áudio padrão do sistema: https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a
+- Áudio padrão do sistema: {audio_padrao_url}
 
 ---
 
@@ -276,10 +276,10 @@ Com **horário + email reais** → Sistema cria evento no Cal.com.
 "Acessos:"
 \
 "Do zero aos 60 mil mensais (estudo de caso do Sérgio):"
-agenciaww.com/cash
+{case_study_url}
 \
 "E aqui o link do drive com dezenas e dezenas de cases de sucesso:"
-https://drive.google.com/drive/folders/1hPynOHHWEE26COs6T5V0xT5vIFDwMB_m?usp=drive_link
+{materials_drive_url}
 \
 "Tenho mais um recado para te dar, mas antes — até aqui tá tudo entendido?"
 ```

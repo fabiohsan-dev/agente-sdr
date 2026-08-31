@@ -128,11 +128,31 @@ class Settings(BaseSettings):
     )
 
     # ============================================
-    # CDN / STORAGE (OPCIONAL)
+    # CDN / STORAGE / MATERIAIS (OPCIONAL)
     # ============================================
     cdn_base_url: str = Field(
         default="",
         description="URL base da CDN para arquivos de mídia",
+    )
+    materials_drive_url: str = Field(
+        default="https://drive.google.com/drive/folders/seu-link-de-cases",
+        description="Link do Google Drive com cases de sucesso",
+    )
+    case_study_url: str = Field(
+        default="https://seusite.com/cases",
+        description="Link da página ou estudo de caso",
+    )
+    audio_padrao_url: str = Field(
+        default="",
+        description="URL do áudio padrão do sistema",
+    )
+    case_generico_url: str = Field(
+        default="",
+        description="URL da imagem de case genérico",
+    )
+    follow_up_image_url: str = Field(
+        default="",
+        description="URL da imagem de follow-up",
     )
 
     # ============================================
