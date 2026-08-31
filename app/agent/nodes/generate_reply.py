@@ -315,7 +315,9 @@ def _load_prompt(path: Path) -> str:
         if "{case_study_url}" in content:
             content = content.replace("{case_study_url}", settings.case_study_url)
         if "{audio_padrao_url}" in content:
-            audio_url = settings.audio_padrao_url or "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a"
+            audio_url = (
+                settings.audio_padrao_url or "https://sdr-w.agenciaalea.com.br/audio-w-padrao.m4a"
+            )
             content = content.replace("{audio_padrao_url}", audio_url)
         return content
     except FileNotFoundError:

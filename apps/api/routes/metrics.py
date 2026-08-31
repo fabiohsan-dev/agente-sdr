@@ -118,8 +118,8 @@ async def _get_historical_data(days: int = 7) -> dict:
 
     # Prepopula dias
     counts_by_day = {}
-    for i in range(days-1, -1, -1):
-        day_str = (now - timedelta(days=i)).strftime('%b %d')
+    for i in range(days - 1, -1, -1):
+        day_str = (now - timedelta(days=i)).strftime("%b %d")
         counts_by_day[day_str] = {"leads": 0, "bookings": 0}
         metrics["labels"].append(day_str)
 
@@ -130,15 +130,17 @@ async def _get_historical_data(days: int = 7) -> dict:
         leads = client.table("leads").select("created_at").gte("created_at", start_date).execute()
         for item in leads.data:
             dt = datetime.fromisoformat(item["created_at"].replace("Z", "+00:00"))
-            day_str = dt.strftime('%b %d')
+            day_str = dt.strftime("%b %d")
             if day_str in counts_by_day:
                 counts_by_day[day_str]["leads"] += 1
 
         # Bookings por dia
-        bookings = client.table("bookings").select("created_at").gte("created_at", start_date).execute()
+        bookings = (
+            client.table("bookings").select("created_at").gte("created_at", start_date).execute()
+        )
         for item in bookings.data:
             dt = datetime.fromisoformat(item["created_at"].replace("Z", "+00:00"))
-            day_str = dt.strftime('%b %d')
+            day_str = dt.strftime("%b %d")
             if day_str in counts_by_day:
                 counts_by_day[day_str]["bookings"] += 1
 
@@ -150,6 +152,7 @@ async def _get_historical_data(days: int = 7) -> dict:
         logger.error(f"Erro ao buscar historico: {e}")
 
     return metrics
+
 
 async def _get_recent_leads(limit: int = 5) -> list:
     """Busca leads recentes ativos (excluindo CLOSED e NO_MONEY)."""
@@ -169,6 +172,7 @@ async def _get_recent_leads(limit: int = 5) -> list:
         logger.error(f"Erro ao buscar leads recentes: {e}")
         return []
 
+
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
     """Dashboard visual de métricas do SDR Agent com Jinja2 e Chart.js."""
@@ -178,8 +182,8 @@ async def dashboard(request: Request):
 
     # Preparando dados do funil (donut chart config)
     funnel_states = [
-        ("N" if s == "NEW" else s[:5], s, metrics.get(f"leads_{s.lower()}", 0)) for s in
-        ["NEW", "QUALIFYING", "WAITING_TIME", "BOOKING_IN_PROGRESS", "SCHEDULED"]
+        ("N" if s == "NEW" else s[:5], s, metrics.get(f"leads_{s.lower()}", 0))
+        for s in ["NEW", "QUALIFYING", "WAITING_TIME", "BOOKING_IN_PROGRESS", "SCHEDULED"]
     ]
 
     return templates.TemplateResponse(
@@ -191,5 +195,5 @@ async def dashboard(request: Request):
             "recent_leads": recent_leads,
             "funnel_states": funnel_states,
             "last_update": datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC"),
-        }
+        },
     )
